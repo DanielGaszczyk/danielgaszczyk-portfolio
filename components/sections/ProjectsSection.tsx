@@ -1,19 +1,42 @@
 'use client'
 
-import { useState } from 'react'
-import Link from 'next/link'
-import { ArrowRight, ExternalLink, Github } from 'lucide-react'
+import { useState, useEffect, useRef } from 'react'
+import { ExternalLink, Github } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
 import { getTranslations, type Locale } from '@/lib/i18n'
-import { getFeaturedProjects } from '@/lib/projects'
+import { getAllProjects } from '@/lib/projects'
 import { cn } from '@/lib/utils'
 
 export function ProjectsSection({ locale }: { locale: Locale }) {
   const t = getTranslations(locale)
   const [, setHoveredProject] = useState<string | null>(null)
-  const featuredProjects = getFeaturedProjects(locale)
+  const [visibleProjects, setVisibleProjects] = useState<Set<string>>(new Set())
+  const projectRefs = useRef<Map<string, HTMLDivElement>>(new Map())
+  const allProjects = getAllProjects(locale)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const projectId = entry.target.getAttribute('data-project-id')
+            if (projectId) {
+              setVisibleProjects((prev) => new Set(prev).add(projectId))
+            }
+          }
+        })
+      },
+      { threshold: 0.1, rootMargin: '50px' }
+    )
+
+    projectRefs.current.forEach((ref) => {
+      if (ref) observer.observe(ref)
+    })
+
+    return () => observer.disconnect()
+  }, [allProjects])
 
   return (
     <section id="projects" className="py-32">
@@ -25,35 +48,52 @@ export function ProjectsSection({ locale }: { locale: Locale }) {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {featuredProjects.map((project, index) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {allProjects.map((project, index) => (
             <Card
               key={project.id}
+              ref={(el) => {
+                if (el) projectRefs.current.set(project.id, el)
+              }}
+              data-project-id={project.id}
               variant="glass"
               className={cn(
                 'group hover:scale-105 transition-all duration-300 cursor-pointer',
-                'animate-fade-up'
+                visibleProjects.has(project.id) ? 'animate-fade-up' : 'opacity-0'
               )}
-              style={{ animationDelay: `${index * 0.1}s` }}
+              style={{ 
+                animationDelay: visibleProjects.has(project.id) ? `${(index % 3) * 0.1}s` : undefined,
+                animationFillMode: 'forwards'
+              }}
               onMouseEnter={() => setHoveredProject(project.id)}
               onMouseLeave={() => setHoveredProject(null)}
             >
               <CardHeader>
-                <div className="h-48 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-lg mb-4 flex items-center justify-center">
-                  <span className="text-6xl">{project.emoji || '🚀'}</span>
+                <div className="h-40 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-lg mb-4 flex items-center justify-center relative overflow-hidden">
+                  <span className="text-5xl" role="img" aria-label={project.title}>{project.emoji || '🚀'}</span>
+                  {project.metrics?.impact && (
+                    <div className="absolute top-2 right-2 bg-background/80 backdrop-blur-sm rounded px-2 py-1 text-xs font-semibold">
+                      {project.metrics.impact}
+                    </div>
+                  )}
                 </div>
-                <CardTitle>{project.title}</CardTitle>
-                <CardDescription className="mt-2">
-                  {project.description}
+                <CardTitle className="text-lg">{project.title}</CardTitle>
+                <CardDescription className="mt-2 text-sm line-clamp-3">
+                  {project.longDescription || project.description}
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {project.technologies.map((tech) => (
-                    <Badge key={tech} variant="secondary">
+                <div className="flex flex-wrap gap-1.5 mb-4">
+                  {project.technologies.slice(0, 4).map((tech) => (
+                    <Badge key={tech} variant="secondary" className="text-xs">
                       {tech}
                     </Badge>
                   ))}
+                  {project.technologies.length > 4 && (
+                    <Badge variant="outline" className="text-xs">
+                      +{project.technologies.length - 4}
+                    </Badge>
+                  )}
                 </div>
                 <div className="flex gap-2">
                   {project.liveUrl && (
@@ -88,14 +128,7 @@ export function ProjectsSection({ locale }: { locale: Locale }) {
           ))}
         </div>
 
-        <div className="text-center mt-12">
-          <Link href={`/${locale}/projects`}>
-            <Button size="lg" variant="outline" className="group">
-              {t.projects.viewMore}
-              <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-            </Button>
-          </Link>
-        </div>
+        {/* Removed "View More" button as all projects are now displayed */}
       </div>
     </section>
   )

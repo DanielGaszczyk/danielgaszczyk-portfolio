@@ -220,6 +220,41 @@
   animation: particle linear infinite;
 }
 
+/* Particle styles */
+.particle {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: hsl(var(--primary) / 0.5);
+  border-radius: 50%;
+  animation: particle linear infinite;
+}
+
+/* Float variations */
+.animate-float-delayed {
+  animation: float 8s ease-in-out infinite;
+  animation-delay: 2s;
+}
+
+.animate-float-slow {
+  animation: float 10s ease-in-out infinite;
+  animation-delay: 4s;
+}
+
+/* Grid animation */
+@keyframes grid {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(50px, 50px);
+  }
+}
+
+.animate-grid {
+  animation: grid 20s linear infinite;
+}
+
 /* Line clamp utility */
 .line-clamp-3 {
   display: -webkit-box;

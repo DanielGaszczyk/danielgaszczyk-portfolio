@@ -18,18 +18,18 @@ export function ContactSection({ locale }: { locale: Locale }) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     // Handle form submission
-    const mailtoLink = `mailto:daniel.gaszczyk@gmail.com?subject=Contact from ${formData.name}&body=${formData.message}%0D%0A%0D%0AFrom: ${formData.email}`
+    const mailtoLink = `mailto:daniel.gaszzczyk@gmail.com?subject=Contact from ${formData.name}&body=${formData.message}%0D%0A%0D%0AFrom: ${formData.email}`
     window.location.href = mailtoLink
   }
 
   const contactInfo = {
     pl: [
-      { icon: Mail, label: 'Email', value: 'daniel.gaszczyk@gmail.com' },
+      { icon: Mail, label: 'Email', value: 'daniel.gaszzczyk@gmail.com' },
       { icon: MapPin, label: 'Lokalizacja', value: 'Polska' },
       { icon: Phone, label: 'Dostępność', value: 'Otwarte kalendarz' },
     ],
     en: [
-      { icon: Mail, label: 'Email', value: 'daniel.gaszczyk@gmail.com' },
+      { icon: Mail, label: 'Email', value: 'daniel.gaszzczyk@gmail.com' },
       { icon: MapPin, label: 'Location', value: 'Poland' },
       { icon: Phone, label: 'Availability', value: 'Calendar open' },
     ],

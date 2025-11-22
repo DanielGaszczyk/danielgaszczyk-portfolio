@@ -1,6 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'export',
+  basePath: '/danielgaszczyk-portfolio',
+  assetPrefix: '/danielgaszczyk-portfolio',
   images: {
     unoptimized: true,
   },

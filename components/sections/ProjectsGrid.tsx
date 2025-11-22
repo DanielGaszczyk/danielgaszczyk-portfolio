@@ -1,50 +1,19 @@
 'use client'
 
-import { useState } from 'react'
 import { ExternalLink, Github } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card'
-import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
 import { type Locale } from '@/lib/i18n'
 import { cn } from '@/lib/utils'
 import { getAllProjects } from '@/lib/projects'
 
 export function ProjectsGrid({ locale }: { locale: Locale }) {
-  const [filter, setFilter] = useState<string>('all')
   const projects = getAllProjects(locale)
-  
-  const technologies = Array.from(
-    new Set(projects.flatMap(p => p.technologies))
-  ).sort()
-
-  const filteredProjects = filter === 'all' 
-    ? projects 
-    : projects.filter(p => p.technologies.includes(filter))
 
   return (
     <>
-      <div className="flex flex-wrap gap-2 justify-center mb-12">
-        <Button
-          variant={filter === 'all' ? 'primary' : 'outline'}
-          size="sm"
-          onClick={() => setFilter('all')}
-        >
-          {locale === 'pl' ? 'Wszystkie' : 'All'}
-        </Button>
-        {technologies.map(tech => (
-          <Button
-            key={tech}
-            variant={filter === tech ? 'primary' : 'outline'}
-            size="sm"
-            onClick={() => setFilter(tech)}
-          >
-            {tech}
-          </Button>
-        ))}
-      </div>
-
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {filteredProjects.map((project, index) => (
+        {projects.map((project, index) => (
           <Card
             key={project.id}
             variant="glass"
@@ -64,13 +33,6 @@ export function ProjectsGrid({ locale }: { locale: Locale }) {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="flex flex-wrap gap-2 mb-4">
-                {project.technologies.map((tech) => (
-                  <Badge key={tech} variant="secondary">
-                    {tech}
-                  </Badge>
-                ))}
-              </div>
               <div className="flex gap-2">
                 {project.liveUrl && (
                   <a

@@ -18,12 +18,12 @@ export async function generateMetadata({
   
   const metadata = {
     pl: {
-      title: 'Daniel Gaszczyk - Konsultant AI | Automatyzacja Biznesu | TeamFeedback CTO',
-      description: 'Konsultant AI specjalizujący się w automatyzacji biznesu. Twórca TeamFeedback (1M+ PLN finansowania), DailySpark. Wdrożenia AI dla MŚP - zwiększ efektywność o 25% w 90 dni. 5+ lat doświadczenia, 30+ projektów.',
+      title: 'Daniel Gaszczyk - Tłumaczę AI | Automatyzacja Biznesu | TeamFeedback CTO',
+      description: 'Tłumaczę AI i automatyzację biznesu. Twórca TeamFeedback (1M+ PLN finansowania), DailySpark. Wdrożenia AI dla MŚP - ROI w 3-6 miesięcy. 5+ lat doświadczenia, 30+ projektów.',
     },
     en: {
-      title: 'Daniel Gaszczyk - AI Consultant | Business Automation | TeamFeedback CTO',
-      description: 'AI consultant specializing in business automation. Creator of TeamFeedback (1M+ PLN funding), DailySpark. AI implementations for SMEs - increase efficiency by 25% in 90 days. 5+ years experience, 30+ projects.',
+      title: 'Daniel Gaszczyk - AI Explainer | Business Automation | TeamFeedback CTO',
+      description: 'I explain AI and business automation. Creator of TeamFeedback (1M+ PLN funding), DailySpark. AI implementations for SMEs - ROI in 3-6 months. 5+ years experience, 30+ projects.',
     },
   }
 
@@ -34,7 +34,6 @@ export async function generateMetadata({
     },
     description: metadata[locale].description,
     keywords: locale === 'pl' ? [
-      'konsultant AI Polska',
       'automatyzacja biznesu AI',
       'wdrożenia sztucznej inteligencji',
       'TeamFeedback',
@@ -119,7 +118,7 @@ export default async function LocaleLayout({
     name: 'Daniel Gaszczyk',
     alternateName: 'Daniel Gąszczyk',
     url: 'https://danielgaszczyk.com',
-    jobTitle: locale === 'pl' ? 'Konsultant AI i CTO' : 'AI Consultant and CTO',
+    jobTitle: locale === 'pl' ? 'Tłumaczę AI | CTO' : 'AI Explainer | CTO',
     worksFor: [
       {
         '@type': 'Organization',
@@ -140,12 +139,12 @@ export default async function LocaleLayout({
     ],
     knowsAbout: [
       'Artificial Intelligence',
-      'Machine Learning',
+      'AI Agents',
+      'Voice AI (ElevenLabs)',
+      'AI-Assisted Coding',
       'Business Automation',
       'Digital Transformation',
       'Software Development',
-      'React',
-      'Node.js',
       'Python',
       'Azure AI'
     ],
@@ -157,8 +156,7 @@ export default async function LocaleLayout({
       '@type': 'CreativeWork',
       name: project.title,
       description: project.longDescription || project.description,
-      url: project.liveUrl || project.githubUrl,
-      keywords: project.technologies.join(', ')
+      url: project.liveUrl || project.githubUrl
     }))
   }
 

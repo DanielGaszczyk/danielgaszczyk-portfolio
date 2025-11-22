@@ -3,7 +3,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { ExternalLink, Github } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card'
-import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
 import { getTranslations, type Locale } from '@/lib/i18n'
 import { getAllProjects } from '@/lib/projects'
@@ -71,11 +70,6 @@ export function ProjectsSection({ locale }: { locale: Locale }) {
               <CardHeader>
                 <div className="h-40 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-lg mb-4 flex items-center justify-center relative overflow-hidden">
                   <span className="text-5xl" role="img" aria-label={project.title}>{project.emoji || '🚀'}</span>
-                  {project.metrics?.impact && (
-                    <div className="absolute top-2 right-2 bg-background/80 backdrop-blur-sm rounded px-2 py-1 text-xs font-semibold">
-                      {project.metrics.impact}
-                    </div>
-                  )}
                 </div>
                 <CardTitle className="text-lg">{project.title}</CardTitle>
                 <CardDescription className="mt-2 text-sm line-clamp-3">
@@ -83,18 +77,6 @@ export function ProjectsSection({ locale }: { locale: Locale }) {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="flex flex-wrap gap-1.5 mb-4">
-                  {project.technologies.slice(0, 4).map((tech) => (
-                    <Badge key={tech} variant="secondary" className="text-xs">
-                      {tech}
-                    </Badge>
-                  ))}
-                  {project.technologies.length > 4 && (
-                    <Badge variant="outline" className="text-xs">
-                      +{project.technologies.length - 4}
-                    </Badge>
-                  )}
-                </div>
                 <div className="flex gap-2">
                   {project.liveUrl && (
                     <a

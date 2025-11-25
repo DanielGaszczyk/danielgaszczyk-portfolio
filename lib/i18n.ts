@@ -12,6 +12,7 @@ export const translations = {
       contact: 'Kontakt',
     },
     hero: {
+      badge: 'Tłumaczę AI',
       greeting: 'Cześć, jestem Daniel',
       subtitle: 'Z pasją łączę AI, dane i biznes',
       description: 'Rozwijam pomysły od hackathonów aż po pełnoprawne startupy. Uwielbiam szybkie prototypowanie i nieustanne odkrywanie nowych technologii.',
@@ -55,6 +56,7 @@ export const translations = {
       contact: 'Contact',
     },
     hero: {
+      badge: 'AI Explainer & Tech Entrepreneur',
       greeting: "Hi, I'm Daniel",
       subtitle: 'Passionately combining AI, data, and business',
       description: 'Developing ideas from hackathons to full-fledged startups. I love rapid prototyping and constantly discovering new technologies.',

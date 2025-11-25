@@ -79,7 +79,7 @@ export async function generateMetadata({
       card: 'summary_large_image',
       title: metadata[locale].title,
       description: metadata[locale].description,
-      creator: '@danielgaszczyk',
+      creator: '@DaGaszczyk',
     },
     robots: {
       index: true,

@@ -18,7 +18,7 @@ export function Footer({ locale }: { locale: Locale }) {
     },
     {
       name: 'Twitter',
-      href: 'https://twitter.com/danielgaszczyk',
+      href: 'https://twitter.com/DaGaszczyk',
       icon: Twitter,
     },
     {

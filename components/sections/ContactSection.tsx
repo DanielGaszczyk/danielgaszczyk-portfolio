@@ -26,12 +26,12 @@ export function ContactSection({ locale }: { locale: Locale }) {
     pl: [
       { icon: Mail, label: 'Email', value: 'daniel.gaszzczyk@gmail.com' },
       { icon: MapPin, label: 'Lokalizacja', value: 'Polska' },
-      { icon: Phone, label: 'Dostępność', value: 'Otwarte kalendarz' },
+      { icon: Phone, label: 'Dostępność', value: 'Kalendarz' },
     ],
     en: [
       { icon: Mail, label: 'Email', value: 'daniel.gaszzczyk@gmail.com' },
       { icon: MapPin, label: 'Location', value: 'Poland' },
-      { icon: Phone, label: 'Availability', value: 'Calendar open' },
+      { icon: Phone, label: 'Availability', value: 'Calendar' },
     ],
   }
 

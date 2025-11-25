@@ -28,7 +28,7 @@ export function HeroSection({ locale }: { locale: Locale }) {
           {/* Main heading with animation */}
           <div className="mb-6 inline-flex items-center gap-2 px-4 py-2 rounded-full glass">
             <Sparkles className="w-4 h-4 text-primary" />
-            <span className="text-sm font-medium">AI Consultant & Tech Entrepreneur</span>
+            <span className="text-sm font-medium">{t.hero.badge}</span>
           </div>
           
           <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold mb-6">

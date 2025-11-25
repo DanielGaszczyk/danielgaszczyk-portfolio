@@ -23,6 +23,14 @@ export function Header({ locale }: { locale: Locale }) {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  // Get the language switch URL by replacing the current locale in the pathname
+  const getLanguageSwitchUrl = () => {
+    const newLocale = locale === 'pl' ? 'en' : 'pl'
+    // Replace the locale segment in the pathname
+    const pathWithoutLocale = pathname.replace(`/${locale}`, '') || '/'
+    return `/${newLocale}${pathWithoutLocale === '/' ? '' : pathWithoutLocale}`
+  }
+
   const navigation = [
     { name: t.nav.home, href: `/${locale}` },
     { name: t.nav.projects, href: `/${locale}/projects` },
@@ -70,7 +78,7 @@ export function Header({ locale }: { locale: Locale }) {
 
           <div className="flex items-center space-x-4">
             <Link
-              href={locale === 'pl' ? '/en' : '/pl'}
+              href={getLanguageSwitchUrl()}
               className="hidden sm:block"
             >
               <Button variant="ghost" size="sm">
@@ -122,7 +130,7 @@ export function Header({ locale }: { locale: Locale }) {
             </Link>
           ))}
           <Link
-            href={locale === 'pl' ? '/en' : '/pl'}
+            href={getLanguageSwitchUrl()}
             className="block px-3 py-2 rounded-md text-base font-medium text-muted-foreground hover:text-primary hover:bg-primary/5"
             onClick={() => setIsMobileMenuOpen(false)}
           >

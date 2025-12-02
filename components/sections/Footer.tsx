@@ -29,7 +29,7 @@ export function Footer({ locale }: { locale: Locale }) {
   ]
 
   return (
-    <footer className="border-t border-border bg-background/50 backdrop-blur-lg mt-32">
+    <footer className="relative z-10 border-t border-white/10 glass mt-32">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="flex flex-col items-center space-y-6">
           <div className="flex space-x-6">
@@ -39,7 +39,7 @@ export function Footer({ locale }: { locale: Locale }) {
                 href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-primary transition-colors"
+                className="text-muted-foreground hover:text-white transition-colors p-2 hover:bg-white/10 rounded-full"
                 aria-label={link.name}
               >
                 <link.icon className="h-5 w-5" />

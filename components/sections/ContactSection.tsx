@@ -1,11 +1,11 @@
 'use client'
 
 import { useState } from 'react'
+import { motion } from 'framer-motion'
 import { Mail, MapPin, Phone, Send } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
-import { Card, CardContent } from '@/components/ui/Card'
 import { getTranslations, type Locale } from '@/lib/i18n'
-import { cn } from '@/lib/utils'
+import { GlassCard } from '@/components/ui/GlassCard'
 
 export function ContactSection({ locale }: { locale: Locale }) {
   const t = getTranslations(locale)
@@ -36,102 +36,119 @@ export function ContactSection({ locale }: { locale: Locale }) {
   }
 
   return (
-    <section id="contact" className="py-32 bg-gradient-to-t from-secondary/10 to-background">
+    <section id="contact" className="py-32 relative z-10">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold mb-4">{t.contact.title}</h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+        <motion.div
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <h2 className="text-5xl font-black mb-6 tracking-tight">{t.contact.title}</h2>
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto font-light">
             {t.contact.subtitle}
           </p>
-        </div>
+        </motion.div>
 
         <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Contact Form */}
-          <Card variant="glass" className="animate-fade-up">
-            <CardContent className="p-8">
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <GlassCard>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium mb-2">
+                  <label htmlFor="name" className="block text-sm font-medium mb-2 text-muted-foreground">
                     {t.contact.form.name}
                   </label>
                   <input
                     type="text"
                     id="name"
                     required
-                    className="w-full px-4 py-2 rounded-lg bg-background border border-border focus:outline-none focus:ring-2 focus:ring-primary"
+                    className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:bg-white/10 transition-all text-white placeholder:text-white/20"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium mb-2">
+                  <label htmlFor="email" className="block text-sm font-medium mb-2 text-muted-foreground">
                     {t.contact.form.email}
                   </label>
                   <input
                     type="email"
                     id="email"
                     required
-                    className="w-full px-4 py-2 rounded-lg bg-background border border-border focus:outline-none focus:ring-2 focus:ring-primary"
+                    className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:bg-white/10 transition-all text-white placeholder:text-white/20"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="message" className="block text-sm font-medium mb-2">
+                  <label htmlFor="message" className="block text-sm font-medium mb-2 text-muted-foreground">
                     {t.contact.form.message}
                   </label>
                   <textarea
                     id="message"
                     required
                     rows={5}
-                    className="w-full px-4 py-2 rounded-lg bg-background border border-border focus:outline-none focus:ring-2 focus:ring-primary resize-none"
+                    className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:bg-white/10 transition-all text-white placeholder:text-white/20 resize-none"
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   />
                 </div>
 
-                <Button type="submit" size="lg" className="w-full group">
+                <Button type="submit" size="lg" className="w-full group bg-white text-black hover:bg-white/90">
                   <Send className="mr-2 h-5 w-5 group-hover:rotate-12 transition-transform" />
                   {t.contact.form.send}
                 </Button>
               </form>
-            </CardContent>
-          </Card>
+            </GlassCard>
+          </motion.div>
 
           {/* Contact Information */}
           <div className="space-y-6">
             {contactInfo[locale].map((item, index) => {
               const Icon = item.icon
               return (
-                <Card
+                <motion.div
                   key={item.label}
-                  variant="glass"
-                  className={cn(
-                    'animate-fade-up hover:scale-105 transition-all duration-300'
-                  )}
-                  style={{ animationDelay: `${index * 0.1}s` }}
+                  initial={{ opacity: 0, x: 30 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1, duration: 0.6 }}
                 >
-                  <CardContent className="p-6 flex items-center space-x-4">
-                    <div className="p-3 rounded-lg bg-primary/10">
+                  <GlassCard
+                    className="flex items-center space-x-6 hover:bg-white/10 transition-colors"
+                  >
+                    <div className="p-4 rounded-full bg-white/5 border border-white/10">
                       <Icon className="h-6 w-6 text-primary" />
                     </div>
                     <div>
-                      <p className="text-sm text-muted-foreground">{item.label}</p>
-                      <p className="font-medium">{item.value}</p>
+                      <p className="text-sm text-muted-foreground mb-1">{item.label}</p>
+                      <p className="text-xl font-medium">{item.value}</p>
                     </div>
-                  </CardContent>
-                </Card>
+                  </GlassCard>
+                </motion.div>
               )
             })}
 
-            <Card variant="glass" className="animate-fade-up" style={{ animationDelay: '0.3s' }}>
-              <CardContent className="p-8 text-center">
-                <h3 className="text-xl font-semibold mb-4">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.4, duration: 0.6 }}
+            >
+              <GlassCard className="text-center p-8 bg-gradient-to-br from-primary/20 to-secondary/20 border-primary/20">
+                <h3 className="text-2xl font-bold mb-4">
                   {locale === 'pl' ? 'Umów spotkanie' : 'Schedule a Meeting'}
                 </h3>
-                <p className="text-muted-foreground mb-6">
+                <p className="text-muted-foreground mb-8">
                   {locale === 'pl'
                     ? 'Zarezerwuj czas w moim kalendarzu'
                     : 'Book a time in my calendar'}
@@ -141,12 +158,12 @@ export function ContactSection({ locale }: { locale: Locale }) {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <Button size="lg" variant="outline" className="w-full">
+                  <Button size="lg" variant="outline" className="w-full border-white/20 hover:bg-white/10 backdrop-blur-md">
                     {locale === 'pl' ? 'Otwórz kalendarz' : 'Open Calendar'}
                   </Button>
                 </a>
-              </CardContent>
-            </Card>
+              </GlassCard>
+            </motion.div>
           </div>
         </div>
       </div>

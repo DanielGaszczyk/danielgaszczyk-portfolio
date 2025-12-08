@@ -64,7 +64,7 @@ export function SkillsSection({ locale }: { locale: Locale }) {
           <h2 className="text-5xl font-black mb-6 tracking-tight text-white">
             {title}
           </h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto font-light">
+          <p className="text-xl text-foreground/90 max-w-2xl mx-auto font-light">
             {subtitle}
           </p>
         </motion.div>
@@ -77,8 +77,9 @@ export function SkillsSection({ locale }: { locale: Locale }) {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1, duration: 0.5 }}
+              whileHover={{ scale: 1.05, y: -8 }}
             >
-              <GlassCard className="h-full group hover:bg-white/10 transition-colors duration-500">
+              <GlassCard className="h-full group hover:bg-white/10 transition-all duration-300 hover:shadow-[0_20px_60px_rgba(147,197,253,0.4)]">
                 <h3 className="text-2xl font-bold mb-6 gradient-text">
                   {category}
                 </h3>

@@ -6,6 +6,7 @@ import { Mail, MapPin, Phone, Send } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import { getTranslations, type Locale } from '@/lib/i18n'
 import { GlassCard } from '@/components/ui/GlassCard'
+import { CalendarEmbed } from '@/components/ui/CalendarEmbed'
 
 export function ContactSection({ locale }: { locale: Locale }) {
   const t = getTranslations(locale)
@@ -51,16 +52,17 @@ export function ContactSection({ locale }: { locale: Locale }) {
           </p>
         </motion.div>
 
-        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Contact Form */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <GlassCard>
-              <form onSubmit={handleSubmit} className="space-y-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-12">
+            {/* Contact Form */}
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <GlassCard>
+                <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium mb-2 text-muted-foreground">
                     {t.contact.form.name}
@@ -107,24 +109,47 @@ export function ContactSection({ locale }: { locale: Locale }) {
                   <Send className="mr-2 h-5 w-5 group-hover:rotate-12 transition-transform" />
                   {t.contact.form.send}
                 </Button>
-              </form>
-            </GlassCard>
-          </motion.div>
+                </form>
+              </GlassCard>
+            </motion.div>
+
+            {/* Calendar Embed */}
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <GlassCard className="p-0 overflow-hidden h-full">
+                <div className="p-6 border-b border-white/10">
+                  <h3 className="text-2xl font-bold mb-2">
+                    {locale === 'pl' ? 'Zarezerwuj rozmowę' : 'Schedule a Meeting'}
+                  </h3>
+                  <p className="text-foreground/70">
+                    {locale === 'pl'
+                      ? 'Wybierz dogodny termin w moim kalendarzu'
+                      : 'Pick a convenient time in my calendar'}
+                  </p>
+                </div>
+                <CalendarEmbed />
+              </GlassCard>
+            </motion.div>
+          </div>
 
           {/* Contact Information */}
-          <div className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {contactInfo[locale].map((item, index) => {
               const Icon = item.icon
               return (
                 <motion.div
                   key={item.label}
-                  initial={{ opacity: 0, x: 30 }}
-                  whileInView={{ opacity: 1, x: 0 }}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1, duration: 0.6 }}
                 >
                   <GlassCard
-                    className="flex items-center space-x-6 hover:bg-white/10 transition-colors"
+                    className="flex items-center space-x-6 hover:bg-white/10 transition-colors h-full"
                   >
                     <div className="p-4 rounded-full bg-white/5 border border-white/10">
                       <Icon className="h-6 w-6 text-primary" />
@@ -137,33 +162,6 @@ export function ContactSection({ locale }: { locale: Locale }) {
                 </motion.div>
               )
             })}
-
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.4, duration: 0.6 }}
-            >
-              <GlassCard className="text-center p-8 bg-gradient-to-br from-primary/20 to-secondary/20 border-primary/20">
-                <h3 className="text-2xl font-bold mb-4">
-                  {locale === 'pl' ? 'Umów spotkanie' : 'Schedule a Meeting'}
-                </h3>
-                <p className="text-muted-foreground mb-8">
-                  {locale === 'pl'
-                    ? 'Zarezerwuj czas w moim kalendarzu'
-                    : 'Book a time in my calendar'}
-                </p>
-                <a
-                  href="https://calendar.app.google/xKCsZqPvkMwTyV1x9"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Button size="lg" variant="outline" className="w-full border-white/20 hover:bg-white/10 backdrop-blur-md">
-                    {locale === 'pl' ? 'Otwórz kalendarz' : 'Open Calendar'}
-                  </Button>
-                </a>
-              </GlassCard>
-            </motion.div>
           </div>
         </div>
       </div>

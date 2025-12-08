@@ -54,15 +54,15 @@ export function AboutSection({ locale }: { locale: Locale }) {
             transition={{ duration: 0.6 }}
           >
             <h2 className="text-5xl font-black mb-6 tracking-tight gradient-text">{data.title}</h2>
-            <p className="text-xl text-muted-foreground font-light">{data.subtitle}</p>
+            <p className="text-xl text-foreground/90 font-light">{data.subtitle}</p>
           </motion.div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-6">
+            <div className="space-y-6 max-w-readable">
               {data.bio.map((paragraph, index) => (
                 <motion.p
                   key={index}
-                  className="text-lg text-muted-foreground leading-relaxed font-light"
+                  className="text-lg text-foreground/95 leading-relaxed font-light"
                   initial={{ opacity: 0, x: -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
@@ -83,13 +83,14 @@ export function AboutSection({ locale }: { locale: Locale }) {
                     whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true }}
                     transition={{ delay: index * 0.1, type: "spring" }}
+                    whileHover={{ scale: 1.1, y: -8 }}
                   >
-                    <GlassCard className="text-center h-full flex flex-col items-center justify-center hover:bg-white/10 transition-colors">
+                    <GlassCard className="text-center h-full flex flex-col items-center justify-center hover:bg-white/10 transition-all duration-300 gradient-border noise-texture-strong">
                       <div className="p-4 rounded-full bg-white/5 mb-4">
                         <Icon className="h-8 w-8 text-primary" />
                       </div>
                       <div className="text-4xl font-bold mb-2 gradient-text">{stat.value}</div>
-                      <div className="text-sm text-muted-foreground font-medium">{stat.label}</div>
+                      <div className="text-sm text-foreground/90 font-medium">{stat.label}</div>
                     </GlassCard>
                   </motion.div>
                 )

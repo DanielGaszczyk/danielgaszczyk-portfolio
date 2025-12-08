@@ -6,7 +6,10 @@ import { motion, useScroll, useTransform } from 'framer-motion'
 import { ArrowDown, Calendar, Code2, Sparkles } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import { getTranslations, type Locale } from '@/lib/i18n'
-import { GlassCard } from '@/components/ui/GlassCard'
+import { LiquidBlobs } from '@/components/effects/LiquidBlobs'
+import { FloatingParticles } from '@/components/effects/FloatingParticles'
+import { InteractiveGrid } from '@/components/effects/InteractiveGrid'
+import { ProjectShowcase } from '@/components/ui/ProjectShowcase'
 
 export function HeroSection({ locale }: { locale: Locale }) {
   const t = getTranslations(locale)
@@ -19,10 +22,26 @@ export function HeroSection({ locale }: { locale: Locale }) {
     setMounted(true)
   }, [])
 
+  // Helper function to apply shimmer to specific words
+  const renderShimmeredText = (text: string, shimmerWords: string[]) => {
+    return text.split(' ').map((word, i) => {
+      const shouldShimmer = shimmerWords.some(sw => word.toLowerCase().includes(sw.toLowerCase()))
+      return (
+        <span key={i} className={shouldShimmer ? 'gradient-text-shimmer' : 'gradient-text'}>
+          {word}{' '}
+        </span>
+      )
+    })
+  }
+
   if (!mounted) return null
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden perspective-1000">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden perspective-2000">
+      {/* Background effects */}
+      <InteractiveGrid />
+      <LiquidBlobs />
+      <FloatingParticles />
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
           
@@ -45,19 +64,19 @@ export function HeroSection({ locale }: { locale: Locale }) {
 
             <h1 className="text-6xl sm:text-7xl md:text-8xl font-black mb-8 leading-tight tracking-tighter">
               <span className="block">{t.hero.greeting}</span>
-              <span className="block mt-2 gradient-text">
-                {t.hero.subtitle}
+              <span className="block mt-2">
+                {renderShimmeredText(t.hero.subtitle, locale === 'pl' ? ['AI', 'biznes'] : ['AI', 'business'])}
               </span>
             </h1>
 
-            <p className="text-xl sm:text-2xl text-muted-foreground mb-10 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-light">
+            <p className="text-xl sm:text-2xl text-foreground/95 mb-10 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-light">
               {t.hero.description}
             </p>
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start">
               <Link href={`/${locale}/projects`}>
-                <Button size="xl" className="group text-lg px-8 py-6 rounded-2xl relative overflow-hidden bg-white text-black hover:bg-white/90">
+                <Button size="xl" className="group text-lg px-8 py-6 rounded-2xl relative overflow-hidden bg-white text-black hover:bg-white/90 transition-all hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(255,255,255,0.3)]">
                   <span className="relative z-10 flex items-center">
                     <Code2 className="mr-2 h-5 w-5 group-hover:rotate-12 transition-transform" />
                     {t.hero.cta.primary}
@@ -70,7 +89,7 @@ export function HeroSection({ locale }: { locale: Locale }) {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <Button size="xl" variant="outline" className="group text-lg px-8 py-6 rounded-2xl border-white/20 hover:bg-white/5 backdrop-blur-md">
+                <Button size="xl" variant="outline" className="group text-lg px-8 py-6 rounded-2xl border-white/20 hover:bg-white/5 backdrop-blur-md transition-all hover:-translate-y-1 hover:shadow-[0_10px_40px_rgba(147,197,253,0.3)] hover:border-blue-400/40">
                   <Calendar className="mr-2 h-5 w-5 group-hover:rotate-12 transition-transform" />
                   {t.hero.cta.secondary}
                 </Button>
@@ -78,7 +97,7 @@ export function HeroSection({ locale }: { locale: Locale }) {
             </div>
           </motion.div>
 
-          {/* Floating Glass Element */}
+          {/* Project Showcase Bento Grid */}
           <motion.div
             className="flex-1 relative hidden lg:block"
             style={{ y: y2 }}
@@ -86,31 +105,7 @@ export function HeroSection({ locale }: { locale: Locale }) {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, delay: 0.2 }}
           >
-            <div className="relative w-full aspect-square max-w-[500px] mx-auto">
-              <div className="absolute inset-0 bg-gradient-to-tr from-blue-500/20 to-purple-500/20 rounded-full blur-3xl animate-pulse-slow" />
-
-              <GlassCard className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] aspect-[4/5] flex flex-col justify-center items-center backdrop-blur-3xl bg-black/20 border-white/10 z-20 rotate-[-6deg] hover:rotate-0 transition-all duration-500">
-                <div className="text-8xl font-black text-white/10">AI</div>
-                <div className="text-4xl font-bold gradient-text mt-4">Automation</div>
-                <div className="mt-8 grid grid-cols-2 gap-4 w-full">
-                  {[1,2,3,4].map(i => (
-                    <div key={i} className="h-2 bg-white/10 rounded-full w-full animate-pulse" style={{ animationDelay: `${i * 0.2}s` }} />
-                  ))}
-                </div>
-              </GlassCard>
-
-              <GlassCard className="absolute bottom-0 right-0 w-[60%] aspect-video z-30 translate-x-10 translate-y-10 animate-float-delayed">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-3 h-3 rounded-full bg-red-500" />
-                  <div className="w-3 h-3 rounded-full bg-yellow-500" />
-                  <div className="w-3 h-3 rounded-full bg-green-500" />
-                </div>
-                <div className="space-y-2">
-                  <div className="h-2 w-3/4 bg-white/20 rounded" />
-                  <div className="h-2 w-1/2 bg-white/20 rounded" />
-                </div>
-              </GlassCard>
-            </div>
+            <ProjectShowcase />
           </motion.div>
         </div>
 

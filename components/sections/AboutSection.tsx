@@ -57,8 +57,8 @@ export function AboutSection({ locale }: { locale: Locale }) {
             <p className="text-xl text-foreground/90 font-light">{data.subtitle}</p>
           </motion.div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-6 max-w-readable">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+            <div className="space-y-6">
               {data.bio.map((paragraph, index) => (
                 <motion.p
                   key={index}
@@ -73,7 +73,7 @@ export function AboutSection({ locale }: { locale: Locale }) {
               ))}
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-6">
               {data.stats.map((stat, index) => {
                 const Icon = stat.icon
                 return (
@@ -81,15 +81,16 @@ export function AboutSection({ locale }: { locale: Locale }) {
                     key={stat.label}
                     initial={{ opacity: 0, scale: 0.9 }}
                     whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true, margin: "0px 0px -100px 0px" }}
-                    transition={{ delay: index * 0.1, duration: 0.4 }}
+                    viewport={{ once: false, margin: "-50px" }}
+                    transition={{ delay: index * 0.05, duration: 0.3 }}
+                    className="h-full"
                   >
-                    <GlassCard className="text-center h-full flex flex-col items-center justify-center py-8" hoverEffect={false}>
-                      <div className="w-16 h-16 rounded-full bg-white/5 mb-4 flex items-center justify-center">
-                        <Icon className="h-8 w-8 text-primary" />
+                    <GlassCard className="text-center h-full flex flex-col items-center justify-center p-6 min-h-[180px]" hoverEffect={false}>
+                      <div className="w-14 h-14 min-w-14 shrink-0 rounded-full bg-white/5 mb-4 flex items-center justify-center mx-auto">
+                        <Icon className="h-7 w-7 text-primary shrink-0 mx-auto" />
                       </div>
-                      <div className="text-4xl font-bold mb-2 gradient-text">{stat.value}</div>
-                      <div className="text-sm text-foreground/90 font-medium">{stat.label}</div>
+                      <div className="text-3xl font-bold mb-2 gradient-text">{stat.value}</div>
+                      <div className="text-sm text-foreground/80 font-medium leading-tight px-2">{stat.label}</div>
                     </GlassCard>
                   </motion.div>
                 )

@@ -23,7 +23,7 @@ export function Footer({ locale }: { locale: Locale }) {
     },
     {
       name: 'Email',
-      href: 'mailto:daniel.gaszzczyk@gmail.com',
+      href: 'mailto:hello@danielgaszczyk.com',
       icon: Mail,
     },
   ]

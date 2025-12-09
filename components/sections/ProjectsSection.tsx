@@ -58,11 +58,12 @@ export function ProjectsSection({ locale }: { locale: Locale }) {
               variant="glass"
               className={cn(
                 'group hover:scale-105 transition-all duration-300 cursor-pointer',
-                visibleProjects.has(project.id) ? 'animate-fade-up' : 'opacity-0'
+                visibleProjects.has(project.id) ? 'animate-fade-up animate-float' : 'opacity-0'
               )}
               style={{
                 animationDelay: visibleProjects.has(project.id) ? `${(index % 3) * 0.1}s` : undefined,
-                animationFillMode: 'forwards'
+                animationFillMode: 'forwards',
+                animationDuration: '6s'
               }}
               onMouseEnter={() => setHoveredProject(project.id)}
               onMouseLeave={() => setHoveredProject(null)}

@@ -6,6 +6,12 @@ import { motion } from 'framer-motion'
 export function CustomCursor() {
   const [position, setPosition] = useState({ x: 0, y: 0 })
   const [isPointer, setIsPointer] = useState(false)
+  const [isTouchDevice, setIsTouchDevice] = useState(false)
+
+  useEffect(() => {
+    // Detect touch device
+    setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0)
+  }, [])
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -19,9 +25,12 @@ export function CustomCursor() {
     return () => window.removeEventListener('mousemove', handleMouseMove)
   }, [])
 
+  // Don't render on touch devices
+  if (isTouchDevice) return null
+
   return (
     <motion.div
-      className="pointer-events-none fixed left-0 top-0 z-[9999] hidden md:block"
+      className="pointer-events-none fixed left-0 top-0 z-[9999]"
       animate={{
         x: position.x - (isPointer ? 20 : 10),
         y: position.y - (isPointer ? 20 : 10),

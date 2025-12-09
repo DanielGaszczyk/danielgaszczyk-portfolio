@@ -6,9 +6,7 @@ import { motion, useScroll, useTransform } from 'framer-motion'
 import { ArrowDown, Calendar, Code2, Sparkles } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import { getTranslations, type Locale } from '@/lib/i18n'
-import { LiquidBlobs } from '@/components/effects/LiquidBlobs'
 import { FloatingParticles } from '@/components/effects/FloatingParticles'
-import { InteractiveGrid } from '@/components/effects/InteractiveGrid'
 import { ProjectShowcase } from '@/components/ui/ProjectShowcase'
 
 export function HeroSection({ locale }: { locale: Locale }) {
@@ -39,8 +37,6 @@ export function HeroSection({ locale }: { locale: Locale }) {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden perspective-2000">
       {/* Background effects */}
-      <InteractiveGrid />
-      <LiquidBlobs />
       <FloatingParticles />
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-12">

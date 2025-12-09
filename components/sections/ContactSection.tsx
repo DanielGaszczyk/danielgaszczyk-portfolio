@@ -2,11 +2,10 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Mail, MapPin, Phone, Send } from 'lucide-react'
+import { Mail, MapPin, Phone, Send, Calendar } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import { getTranslations, type Locale } from '@/lib/i18n'
 import { GlassCard } from '@/components/ui/GlassCard'
-import { CalendarEmbed } from '@/components/ui/CalendarEmbed'
 
 export function ContactSection({ locale }: { locale: Locale }) {
   const t = getTranslations(locale)
@@ -41,10 +40,10 @@ export function ContactSection({ locale }: { locale: Locale }) {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           className="text-center mb-16"
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          viewport={{ once: true, margin: "0px 0px -100px 0px" }}
+          transition={{ duration: 0.4 }}
         >
           <h2 className="text-5xl font-black mb-6 tracking-tight">{t.contact.title}</h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto font-light">
@@ -56,12 +55,12 @@ export function ContactSection({ locale }: { locale: Locale }) {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-12">
             {/* Contact Form */}
             <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "0px 0px -100px 0px" }}
+              transition={{ duration: 0.4 }}
             >
-              <GlassCard>
+              <GlassCard hoverEffect={false}>
                 <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium mb-2 text-muted-foreground">
@@ -113,25 +112,35 @@ export function ContactSection({ locale }: { locale: Locale }) {
               </GlassCard>
             </motion.div>
 
-            {/* Calendar Embed */}
+            {/* Calendar Link */}
             <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "0px 0px -100px 0px" }}
+              transition={{ duration: 0.4 }}
             >
-              <GlassCard className="p-0 overflow-hidden h-full">
-                <div className="p-6 border-b border-white/10">
-                  <h3 className="text-2xl font-bold mb-2">
-                    {locale === 'pl' ? 'Zarezerwuj rozmowę' : 'Schedule a Meeting'}
-                  </h3>
-                  <p className="text-foreground/70">
-                    {locale === 'pl'
-                      ? 'Wybierz dogodny termin w moim kalendarzu'
-                      : 'Pick a convenient time in my calendar'}
-                  </p>
+              <GlassCard className="h-full flex flex-col items-center justify-center p-12 text-center" hoverEffect={false}>
+                <div className="w-20 h-20 rounded-full bg-white/5 mb-6 flex items-center justify-center">
+                  <Calendar className="h-10 w-10 text-primary" />
                 </div>
-                <CalendarEmbed />
+                <h3 className="text-2xl font-bold mb-3">
+                  {locale === 'pl' ? 'Zarezerwuj rozmowę' : 'Schedule a Meeting'}
+                </h3>
+                <p className="text-foreground/70 mb-8 max-w-sm">
+                  {locale === 'pl'
+                    ? 'Wybierz dogodny termin w moim kalendarzu'
+                    : 'Pick a convenient time in my calendar'}
+                </p>
+                <a
+                  href="https://calendar.app.google/xKCsZqPvkMwTyV1x9"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Button size="lg" className="bg-white text-black hover:bg-white/90">
+                    <Calendar className="mr-2 h-5 w-5" />
+                    {locale === 'pl' ? 'Otwórz kalendarz' : 'Open Calendar'}
+                  </Button>
+                </a>
               </GlassCard>
             </motion.div>
           </div>
@@ -143,16 +152,17 @@ export function ContactSection({ locale }: { locale: Locale }) {
               return (
                 <motion.div
                   key={item.label}
-                  initial={{ opacity: 0, y: 30 }}
+                  initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1, duration: 0.6 }}
+                  viewport={{ once: true, margin: "0px 0px -100px 0px" }}
+                  transition={{ delay: index * 0.1, duration: 0.4 }}
                 >
                   <GlassCard
-                    className="flex items-center space-x-6 hover:bg-white/10 transition-colors h-full"
+                    className="flex items-center space-x-6 h-full"
+                    hoverEffect={false}
                   >
-                    <div className="p-4 rounded-full bg-white/5 border border-white/10">
-                      <Icon className="h-6 w-6 text-primary" />
+                    <div className="w-14 h-14 min-w-14 shrink-0 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
+                      <Icon className="h-6 w-6 text-primary shrink-0" />
                     </div>
                     <div>
                       <p className="text-sm text-muted-foreground mb-1">{item.label}</p>

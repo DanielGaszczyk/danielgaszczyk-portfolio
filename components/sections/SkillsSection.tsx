@@ -47,7 +47,7 @@ const skills = {
 
 export function SkillsSection({ locale }: { locale: Locale }) {
   const title = locale === 'pl' ? 'Umiejętności i Technologie' : 'Skills & Technologies'
-  const subtitle = locale === 'pl' 
+  const subtitle = locale === 'pl'
     ? 'Technologie i narzędzia, które wykorzystuję w codziennej pracy'
     : 'Technologies and tools I use in my daily work'
 
@@ -56,10 +56,10 @@ export function SkillsSection({ locale }: { locale: Locale }) {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           className="text-center mb-20"
-          initial={{ opacity: 0, scale: 0.9 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "0px 0px -100px 0px" }}
+          transition={{ duration: 0.4 }}
         >
           <h2 className="text-5xl font-black mb-6 tracking-tight text-white">
             {title}
@@ -73,33 +73,24 @@ export function SkillsSection({ locale }: { locale: Locale }) {
           {Object.entries(skills).map(([category, items], index) => (
             <motion.div
               key={category}
-              initial={{ opacity: 0, y: 50 }}
+              initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1, duration: 0.5 }}
-              whileHover={{ scale: 1.05, y: -8 }}
+              viewport={{ once: true, margin: "0px 0px -100px 0px" }}
+              transition={{ delay: index * 0.1, duration: 0.4 }}
             >
-              <GlassCard className="h-full group hover:bg-white/10 transition-all duration-300 hover:shadow-[0_20px_60px_rgba(147,197,253,0.4)]">
+              <GlassCard className="h-full" hoverEffect={false}>
                 <h3 className="text-2xl font-bold mb-6 gradient-text">
                   {category}
                 </h3>
                 <div className="flex flex-wrap gap-3">
-                  {items.map((skill, skillIndex) => (
-                    <motion.div
+                  {items.map((skill) => (
+                    <Badge
                       key={skill}
-                      initial={{ opacity: 0, scale: 0 }}
-                      whileInView={{ opacity: 1, scale: 1 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: (index * 0.1) + (skillIndex * 0.05), type: "spring" }}
-                      whileHover={{ scale: 1.1, rotate: Math.random() * 10 - 5 }}
+                      variant="secondary"
+                      className="bg-white/5 border-white/10 text-white px-3 py-1 text-sm font-medium backdrop-blur-sm"
                     >
-                      <Badge
-                        variant="secondary"
-                        className="bg-white/5 hover:bg-white/20 border-white/10 text-white px-3 py-1 text-sm font-medium backdrop-blur-sm transition-colors"
-                      >
-                        {skill}
-                      </Badge>
-                    </motion.div>
+                      {skill}
+                    </Badge>
                   ))}
                 </div>
               </GlassCard>

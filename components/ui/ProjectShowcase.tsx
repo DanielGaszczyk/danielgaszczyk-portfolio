@@ -1,49 +1,12 @@
 'use client'
 
-import { motion, useMotionValue, useTransform } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { GlassCard } from '@/components/ui/GlassCard'
 import { TrendingUp, Sparkles, Users, Award } from 'lucide-react'
-import { useRef } from 'react'
 
 export function ProjectShowcase() {
-  const containerRef = useRef<HTMLDivElement>(null)
-  const mouseX = useMotionValue(0)
-  const mouseY = useMotionValue(0)
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!containerRef.current) return
-    const rect = containerRef.current.getBoundingClientRect()
-    const x = (e.clientX - rect.left - rect.width / 2) / 20
-    const y = (e.clientY - rect.top - rect.height / 2) / 20
-    mouseX.set(x)
-    mouseY.set(y)
-  }
-
-  const handleMouseLeave = () => {
-    mouseX.set(0)
-    mouseY.set(0)
-  }
-
-  // Different depth layers for paralax (enhanced for more dramatic effect)
-  const x1 = useTransform(mouseX, (value) => value * 0.8)
-  const y1 = useTransform(mouseY, (value) => value * 0.8)
-  const x2 = useTransform(mouseX, (value) => value * 1.2)
-  const y2 = useTransform(mouseY, (value) => value * 1.2)
-  const x3 = useTransform(mouseX, (value) => value * 0.5)
-  const y3 = useTransform(mouseY, (value) => value * 0.5)
-
-  // Z-rotation for depth
-  const rotateZ1 = useTransform(mouseX, [-20, 20], [-5, 5])
-  const rotateZ2 = useTransform(mouseX, [-20, 20], [5, -5])
-  const rotateZ3 = useTransform(mouseX, [-20, 20], [-3, 3])
-
   return (
-    <div
-      ref={containerRef}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      className="relative w-full aspect-square max-w-[500px] mx-auto"
-    >
+    <div className="relative w-full aspect-square max-w-[500px] mx-auto">
       {/* Animated gradient background */}
       <motion.div
         className="absolute inset-0 bg-gradient-to-tr from-blue-500/20 to-purple-500/20 rounded-full blur-3xl"
@@ -61,7 +24,6 @@ export function ProjectShowcase() {
       {/* Main Card - TeamFeedback */}
       <motion.div
         className="absolute top-[10%] left-[5%] w-[65%] z-30"
-        style={{ x: x1, y: y1, rotateZ: rotateZ1 }}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2, duration: 0.6 }}
@@ -123,7 +85,6 @@ export function ProjectShowcase() {
       {/* Second Card - DailySpark */}
       <motion.div
         className="absolute bottom-[20%] right-[5%] w-[55%] z-20"
-        style={{ x: x2, y: y2, rotateZ: rotateZ2 }}
         initial={{ opacity: 0, x: 20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: 0.4, duration: 0.6 }}
@@ -157,7 +118,6 @@ export function ProjectShowcase() {
       {/* Third Card - Metrics */}
       <motion.div
         className="absolute top-[45%] left-[10%] w-[45%] z-10"
-        style={{ x: x3, y: y3, rotateZ: rotateZ3 }}
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 0.6, duration: 0.6 }}

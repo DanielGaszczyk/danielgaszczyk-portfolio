@@ -2,10 +2,17 @@
 
 import { motion } from 'framer-motion'
 import { useMemo } from 'react'
+import { useIsMobile, usePrefersReducedMotion } from '@/lib/hooks'
 
 export function FloatingParticles() {
+  const isMobile = useIsMobile()
+  const prefersReducedMotion = usePrefersReducedMotion()
+
+  // Mobile: 5 particles, Desktop: 10 particles
+  const particleCount = isMobile ? 5 : 10
+
   const particles = useMemo(() => {
-    return Array.from({ length: 20 }, (_, i) => ({
+    return Array.from({ length: particleCount }, (_, i) => ({
       id: i,
       x: Math.random() * 100,
       y: Math.random() * 100,
@@ -14,7 +21,10 @@ export function FloatingParticles() {
       delay: Math.random() * 5,
       opacity: Math.random() * 0.6 + 0.2,
     }))
-  }, [])
+  }, [particleCount])
+
+  // Don't render if user prefers reduced motion
+  if (prefersReducedMotion) return null
 
   return (
     <div className="fixed inset-0 overflow-hidden pointer-events-none -z-10">

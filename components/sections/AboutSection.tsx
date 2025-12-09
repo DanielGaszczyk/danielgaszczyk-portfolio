@@ -48,10 +48,10 @@ export function AboutSection({ locale }: { locale: Locale }) {
         <div className="max-w-6xl mx-auto">
           <motion.div
             className="text-center mb-16"
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            viewport={{ once: true, margin: "0px 0px -100px 0px" }}
+            transition={{ duration: 0.4 }}
           >
             <h2 className="text-5xl font-black mb-6 tracking-tight gradient-text">{data.title}</h2>
             <p className="text-xl text-foreground/90 font-light">{data.subtitle}</p>
@@ -63,10 +63,10 @@ export function AboutSection({ locale }: { locale: Locale }) {
                 <motion.p
                   key={index}
                   className="text-lg text-foreground/95 leading-relaxed font-light"
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1, duration: 0.5 }}
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "0px 0px -100px 0px" }}
+                  transition={{ delay: index * 0.1, duration: 0.4 }}
                 >
                   {paragraph}
                 </motion.p>
@@ -79,14 +79,13 @@ export function AboutSection({ locale }: { locale: Locale }) {
                 return (
                   <motion.div
                     key={stat.label}
-                    initial={{ opacity: 0, scale: 0.8 }}
+                    initial={{ opacity: 0, scale: 0.9 }}
                     whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.1, type: "spring" }}
-                    whileHover={{ scale: 1.1, y: -8 }}
+                    viewport={{ once: true, margin: "0px 0px -100px 0px" }}
+                    transition={{ delay: index * 0.1, duration: 0.4 }}
                   >
-                    <GlassCard className="text-center h-full flex flex-col items-center justify-center hover:bg-white/10 transition-all duration-300 gradient-border noise-texture-strong">
-                      <div className="p-4 rounded-full bg-white/5 mb-4">
+                    <GlassCard className="text-center h-full flex flex-col items-center justify-center py-8" hoverEffect={false}>
+                      <div className="w-16 h-16 rounded-full bg-white/5 mb-4 flex items-center justify-center">
                         <Icon className="h-8 w-8 text-primary" />
                       </div>
                       <div className="text-4xl font-bold mb-2 gradient-text">{stat.value}</div>

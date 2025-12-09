@@ -38,7 +38,7 @@ export function ProjectsSection({ locale }: { locale: Locale }) {
   }, [allProjects])
 
   return (
-    <section id="projects" className="py-32">
+    <section id="projects" className="py-32 relative z-10">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold mb-4">{t.projects.title}</h2>
@@ -58,11 +58,12 @@ export function ProjectsSection({ locale }: { locale: Locale }) {
               variant="glass"
               className={cn(
                 'group hover:scale-105 transition-all duration-300 cursor-pointer',
-                visibleProjects.has(project.id) ? 'animate-fade-up' : 'opacity-0'
+                visibleProjects.has(project.id) ? 'animate-fade-up animate-float' : 'opacity-0'
               )}
-              style={{ 
+              style={{
                 animationDelay: visibleProjects.has(project.id) ? `${(index % 3) * 0.1}s` : undefined,
-                animationFillMode: 'forwards'
+                animationFillMode: 'forwards',
+                animationDuration: '6s'
               }}
               onMouseEnter={() => setHoveredProject(project.id)}
               onMouseLeave={() => setHoveredProject(null)}
@@ -109,8 +110,6 @@ export function ProjectsSection({ locale }: { locale: Locale }) {
             </Card>
           ))}
         </div>
-
-        {/* Removed "View More" button as all projects are now displayed */}
       </div>
     </section>
   )

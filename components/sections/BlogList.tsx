@@ -1,5 +1,4 @@
-import Link from 'next/link'
-import { Calendar, Clock, ArrowRight } from 'lucide-react'
+import { Calendar, Clock } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { type Locale } from '@/lib/i18n'
@@ -7,13 +6,13 @@ import { getBlogPosts } from '@/lib/blog'
 
 export function BlogList({ locale }: { locale: Locale }) {
   const posts = getBlogPosts(locale)
-  
+
   return (
     <div className="max-w-4xl mx-auto">
-      <div className="space-y-8">
+      <div className="space-y-12">
         {posts.map((post) => (
-          <Link key={post.slug} href={`/${locale}/blog/${post.slug}`}>
-            <Card variant="glass" className="hover:scale-[1.02] transition-all duration-300 cursor-pointer">
+          <div key={post.slug}>
+            <Card variant="glass" className="hover:scale-[1.02] transition-all duration-300 opacity-60 cursor-not-allowed">
               <CardHeader>
                 <div className="flex items-center gap-4 text-sm text-muted-foreground mb-2">
                   <span className="flex items-center gap-1">
@@ -24,6 +23,9 @@ export function BlogList({ locale }: { locale: Locale }) {
                     <Clock className="h-4 w-4" />
                     {post.readingTime}
                   </span>
+                  <Badge variant="secondary" className="ml-auto">
+                    {locale === 'pl' ? 'Wkrótce' : 'Coming Soon'}
+                  </Badge>
                 </div>
                 <CardTitle className="text-2xl">{post.title}</CardTitle>
                 <CardDescription className="mt-2 text-base">
@@ -39,14 +41,10 @@ export function BlogList({ locale }: { locale: Locale }) {
                       </Badge>
                     ))}
                   </div>
-                  <span className="flex items-center gap-1 text-primary">
-                    {locale === 'pl' ? 'Czytaj więcej' : 'Read more'}
-                    <ArrowRight className="h-4 w-4" />
-                  </span>
                 </div>
               </CardContent>
             </Card>
-          </Link>
+          </div>
         ))}
       </div>
     </div>

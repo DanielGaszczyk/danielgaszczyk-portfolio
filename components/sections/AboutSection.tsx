@@ -1,9 +1,9 @@
 'use client'
 
+import { motion } from 'framer-motion'
 import { Award, Briefcase, GraduationCap, Heart } from 'lucide-react'
-import { Card, CardContent } from '@/components/ui/Card'
 import { type Locale } from '@/lib/i18n'
-import { cn } from '@/lib/utils'
+import { GlassCard } from '@/components/ui/GlassCard'
 
 export function AboutSection({ locale }: { locale: Locale }) {
   
@@ -43,47 +43,56 @@ export function AboutSection({ locale }: { locale: Locale }) {
   const data = content[locale]
 
   return (
-    <section id="about" className="py-32">
+    <section id="about" className="py-32 relative z-10">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">{data.title}</h2>
-            <p className="text-xl text-muted-foreground">{data.subtitle}</p>
-          </div>
+          <motion.div
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "0px 0px -100px 0px" }}
+            transition={{ duration: 0.4 }}
+          >
+            <h2 className="text-5xl font-black mb-6 tracking-tight gradient-text">{data.title}</h2>
+            <p className="text-xl text-foreground/90 font-light">{data.subtitle}</p>
+          </motion.div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
             <div className="space-y-6">
               {data.bio.map((paragraph, index) => (
-                <p
+                <motion.p
                   key={index}
-                  className={cn(
-                    'text-lg text-muted-foreground leading-relaxed animate-fade-up'
-                  )}
-                  style={{ animationDelay: `${index * 0.1}s` }}
+                  className="text-lg text-foreground/95 leading-relaxed font-light"
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "0px 0px -100px 0px" }}
+                  transition={{ delay: index * 0.1, duration: 0.4 }}
                 >
                   {paragraph}
-                </p>
+                </motion.p>
               ))}
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-6">
               {data.stats.map((stat, index) => {
                 const Icon = stat.icon
                 return (
-                  <Card
+                  <motion.div
                     key={stat.label}
-                    variant="glass"
-                    className={cn(
-                      'text-center hover:scale-105 transition-all duration-300 animate-fade-up'
-                    )}
-                    style={{ animationDelay: `${index * 0.1}s` }}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: false, margin: "-50px" }}
+                    transition={{ delay: index * 0.05, duration: 0.3 }}
+                    className="h-full"
                   >
-                    <CardContent className="p-6">
-                      <Icon className="h-8 w-8 mx-auto mb-3 text-primary" />
-                      <div className="text-3xl font-bold mb-1">{stat.value}</div>
-                      <div className="text-sm text-muted-foreground">{stat.label}</div>
-                    </CardContent>
-                  </Card>
+                    <GlassCard className="text-center h-full flex flex-col items-center justify-center p-6 min-h-[180px]" hoverEffect={false}>
+                      <div className="w-14 h-14 min-w-14 shrink-0 rounded-full bg-white/5 mb-4 flex items-center justify-center mx-auto">
+                        <Icon className="h-7 w-7 text-primary shrink-0 mx-auto" />
+                      </div>
+                      <div className="text-3xl font-bold mb-2 gradient-text">{stat.value}</div>
+                      <div className="text-sm text-foreground/80 font-medium leading-tight px-2">{stat.label}</div>
+                    </GlassCard>
+                  </motion.div>
                 )
               })}
             </div>

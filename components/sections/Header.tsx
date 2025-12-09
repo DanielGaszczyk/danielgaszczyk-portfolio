@@ -3,9 +3,9 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, Globe } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
-import { DynamicThemeToggle } from '@/components/ui/DynamicThemeToggle'
 import { getTranslations, type Locale } from '@/lib/i18n'
 import { cn } from '@/lib/utils'
 
@@ -40,11 +40,14 @@ export function Header({ locale }: { locale: Locale }) {
   ]
 
   return (
-    <header
+    <motion.header
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.5 }}
       className={cn(
         'fixed top-0 z-50 w-full transition-all duration-300',
         isScrolled
-          ? 'bg-background/80 backdrop-blur-lg border-b border-border'
+          ? 'glass border-b border-white/10'
           : 'bg-transparent'
       )}
     >
@@ -53,21 +56,21 @@ export function Header({ locale }: { locale: Locale }) {
           <div className="flex items-center">
             <Link
               href={`/${locale}`}
-              className="text-2xl font-bold gradient-text hover:opacity-80 transition-opacity"
+              className="text-2xl font-black tracking-tighter hover:opacity-80 transition-opacity"
             >
-              Daniel Gaszczyk
+              Daniel<span className="text-primary">.</span>
             </Link>
           </div>
 
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center space-x-1">
             {navigation.map((item) => (
               <Link
                 key={item.name}
                 href={item.href}
                 className={cn(
-                  'text-sm font-medium transition-colors hover:text-primary',
+                  'text-sm font-medium transition-colors px-4 py-2 rounded-full hover:bg-white/5',
                   pathname === item.href
-                    ? 'text-primary'
+                    ? 'text-primary bg-white/10'
                     : 'text-muted-foreground'
                 )}
               >
@@ -76,23 +79,21 @@ export function Header({ locale }: { locale: Locale }) {
             ))}
           </div>
 
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-2">
             <Link
               href={getLanguageSwitchUrl()}
               className="hidden sm:block"
             >
-              <Button variant="ghost" size="sm">
+              <Button variant="ghost" size="sm" className="hover:bg-white/10 rounded-full">
                 <Globe className="h-4 w-4 mr-2" />
                 {locale === 'pl' ? 'EN' : 'PL'}
               </Button>
             </Link>
 
-            <DynamicThemeToggle />
-
             <Button
               variant="ghost"
               size="sm"
-              className="md:hidden"
+              className="md:hidden hover:bg-white/10 rounded-full"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label="Toggle menu"
             >
@@ -107,38 +108,42 @@ export function Header({ locale }: { locale: Locale }) {
       </nav>
 
       {/* Mobile menu */}
-      <div
-        className={cn(
-          'md:hidden transition-all duration-300 overflow-hidden',
-          isMobileMenuOpen ? 'max-h-96' : 'max-h-0'
-        )}
-      >
-        <div className="bg-background/95 backdrop-blur-lg border-b border-border px-4 py-4 space-y-1">
-          {navigation.map((item) => (
-            <Link
-              key={item.name}
-              href={item.href}
-              className={cn(
-                'block px-3 py-2 rounded-md text-base font-medium transition-colors',
-                pathname === item.href
-                  ? 'text-primary bg-primary/10'
-                  : 'text-muted-foreground hover:text-primary hover:bg-primary/5'
-              )}
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              {item.name}
-            </Link>
-          ))}
-          <Link
-            href={getLanguageSwitchUrl()}
-            className="block px-3 py-2 rounded-md text-base font-medium text-muted-foreground hover:text-primary hover:bg-primary/5"
-            onClick={() => setIsMobileMenuOpen(false)}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="md:hidden overflow-hidden glass border-b border-white/10"
           >
-            <Globe className="h-4 w-4 inline mr-2" />
-            {locale === 'pl' ? 'English' : 'Polski'}
-          </Link>
-        </div>
-      </div>
-    </header>
+            <div className="px-4 py-4 space-y-1">
+              {navigation.map((item) => (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className={cn(
+                    'block px-3 py-2 rounded-md text-base font-medium transition-colors',
+                    pathname === item.href
+                      ? 'text-primary bg-white/10'
+                      : 'text-muted-foreground hover:text-primary hover:bg-white/5'
+                  )}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {item.name}
+                </Link>
+              ))}
+              <Link
+                href={getLanguageSwitchUrl()}
+                className="block px-3 py-2 rounded-md text-base font-medium text-muted-foreground hover:text-primary hover:bg-white/5"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                <Globe className="h-4 w-4 inline mr-2" />
+                {locale === 'pl' ? 'English' : 'Polski'}
+              </Link>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.header>
   )
 }

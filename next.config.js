@@ -1,8 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'export',
-  basePath: '/danielgaszczyk-portfolio',
-  assetPrefix: '/danielgaszczyk-portfolio',
+  basePath: process.env.NODE_ENV === 'production' ? '/danielgaszczyk-portfolio' : '',
+  assetPrefix: process.env.NODE_ENV === 'production' ? '/danielgaszczyk-portfolio' : '',
   images: {
     unoptimized: true,
   },
@@ -10,6 +10,10 @@ const nextConfig = {
   reactStrictMode: true,
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
+  },
+  productionBrowserSourceMaps: false,
+  experimental: {
+    optimizePackageImports: ['framer-motion', 'lucide-react'],
   },
 }
 

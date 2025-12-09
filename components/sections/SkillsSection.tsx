@@ -1,10 +1,9 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
-import { Card } from '@/components/ui/Card'
+import { motion } from 'framer-motion'
 import { Badge } from '@/components/ui/Badge'
 import { type Locale } from '@/lib/i18n'
-import { cn } from '@/lib/utils'
+import { GlassCard } from '@/components/ui/GlassCard'
 
 const skills = {
   'AI & Machine Learning': [
@@ -47,84 +46,55 @@ const skills = {
 }
 
 export function SkillsSection({ locale }: { locale: Locale }) {
-  const [visibleSections, setVisibleSections] = useState<Set<number>>(new Set())
-  const sectionRefs = useRef<(HTMLDivElement | null)[]>([])
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const index = sectionRefs.current.indexOf(entry.target as HTMLDivElement)
-            setVisibleSections((prev) => new Set(prev).add(index))
-          }
-        })
-      },
-      { threshold: 0.1 }
-    )
-
-    sectionRefs.current.forEach((ref) => {
-      if (ref) observer.observe(ref)
-    })
-
-    return () => observer.disconnect()
-  }, [])
-
   const title = locale === 'pl' ? 'Umiejętności i Technologie' : 'Skills & Technologies'
-  const subtitle = locale === 'pl' 
+  const subtitle = locale === 'pl'
     ? 'Technologie i narzędzia, które wykorzystuję w codziennej pracy'
     : 'Technologies and tools I use in my daily work'
 
   return (
-    <section className="py-32 bg-gradient-to-b from-background to-secondary/10">
+    <section className="py-32 relative z-10 overflow-hidden">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold mb-4">{title}</h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+        <motion.div
+          className="text-center mb-20"
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "0px 0px -100px 0px" }}
+          transition={{ duration: 0.4 }}
+        >
+          <h2 className="text-5xl font-black mb-6 tracking-tight text-white">
+            {title}
+          </h2>
+          <p className="text-xl text-foreground/90 max-w-2xl mx-auto font-light">
             {subtitle}
           </p>
-        </div>
+        </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {Object.entries(skills).map(([category, items], index) => (
-            <div
+            <motion.div
               key={category}
-              ref={(el) => {
-                sectionRefs.current[index] = el
-              }}
-              className={cn(
-                'transform transition-all duration-700',
-                visibleSections.has(index)
-                  ? 'translate-y-0 opacity-100'
-                  : 'translate-y-10 opacity-0'
-              )}
-              style={{ transitionDelay: `${index * 100}ms` }}
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "0px 0px -100px 0px" }}
+              transition={{ delay: index * 0.1, duration: 0.4 }}
             >
-              <Card variant="glass" className="h-full hover:scale-105 transition-transform duration-300">
-                <div className="p-6">
-                  <h3 className="text-xl font-semibold mb-4 gradient-text">
-                    {category}
-                  </h3>
-                  <div className="flex flex-wrap gap-2">
-                    {items.map((skill, skillIndex) => (
-                      <Badge
-                        key={skill}
-                        variant="secondary"
-                        className={cn(
-                          'transform transition-all duration-500',
-                          visibleSections.has(index)
-                            ? 'scale-100 opacity-100'
-                            : 'scale-0 opacity-0'
-                        )}
-                        style={{ transitionDelay: `${(index * 100) + (skillIndex * 50)}ms` }}
-                      >
-                        {skill}
-                      </Badge>
-                    ))}
-                  </div>
+              <GlassCard className="h-full" hoverEffect={false}>
+                <h3 className="text-2xl font-bold mb-6 gradient-text">
+                  {category}
+                </h3>
+                <div className="flex flex-wrap gap-3">
+                  {items.map((skill) => (
+                    <Badge
+                      key={skill}
+                      variant="secondary"
+                      className="bg-white/5 border-white/10 text-white px-3 py-1 text-sm font-medium backdrop-blur-sm"
+                    >
+                      {skill}
+                    </Badge>
+                  ))}
                 </div>
-              </Card>
-            </div>
+              </GlassCard>
+            </motion.div>
           ))}
         </div>
       </div>

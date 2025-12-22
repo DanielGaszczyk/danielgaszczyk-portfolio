@@ -1,8 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'export',
-  basePath: process.env.NODE_ENV === 'production' ? '/danielgaszczyk-portfolio' : '',
-  assetPrefix: process.env.NODE_ENV === 'production' ? '/danielgaszczyk-portfolio' : '',
+  // Removed basePath and assetPrefix - using custom domain at root (danielgaszczyk.com)
   images: {
     unoptimized: true,
   },

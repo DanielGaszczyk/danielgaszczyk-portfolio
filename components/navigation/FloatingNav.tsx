@@ -3,6 +3,7 @@
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { Home, Code2, BookOpen, User, Mail, Globe } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { type Locale } from '@/lib/i18n'
@@ -15,6 +16,7 @@ interface NavItem {
 
 export function FloatingNav({ locale }: { locale: Locale }) {
   const [isVisible, setIsVisible] = useState(false)
+  const pathname = usePathname()
   const { scrollY } = useScroll()
   const opacity = useTransform(scrollY, [0, 100], [0, 1])
 
@@ -23,7 +25,7 @@ export function FloatingNav({ locale }: { locale: Locale }) {
       setIsVisible(window.scrollY > 100)
     }
 
-    window.addEventListener('scroll', handleScroll)
+    window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
@@ -87,7 +89,11 @@ export function FloatingNav({ locale }: { locale: Locale }) {
 
             {/* Language switcher */}
             <div className="w-px h-6 bg-white/20 mx-2" />
-            <Link href={locale === 'pl' ? '/en' : '/pl'}>
+            <Link href={(() => {
+              const newLocale = locale === 'pl' ? 'en' : 'pl'
+              const pathWithoutLocale = pathname.replace(`/${locale}`, '') || '/'
+              return `/${newLocale}${pathWithoutLocale === '/' ? '' : pathWithoutLocale}`
+            })()}>
               <motion.button
                 className="relative p-3 rounded-xl transition-all duration-300 hover:bg-white/10 group"
                 whileHover={{ scale: 1.1 }}

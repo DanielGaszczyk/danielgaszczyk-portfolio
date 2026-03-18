@@ -19,7 +19,7 @@ export function Header({ locale }: { locale: Locale }) {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10)
     }
-    window.addEventListener('scroll', handleScroll)
+    window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
@@ -56,7 +56,7 @@ export function Header({ locale }: { locale: Locale }) {
           <div className="flex items-center">
             <Link
               href={`/${locale}`}
-              className="text-2xl font-black tracking-tighter hover:opacity-80 transition-opacity"
+              className="text-2xl font-heading font-bold tracking-tight hover:opacity-80 transition-opacity"
             >
               Daniel<span className="text-primary">.</span>
             </Link>

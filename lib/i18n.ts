@@ -12,13 +12,13 @@ export const translations = {
       contact: 'Kontakt',
     },
     hero: {
-      badge: 'Tłumaczę AI',
+      badge: 'AI × Biznes × Technologia',
       greeting: 'Cześć, jestem Daniel',
-      subtitle: 'Z pasją łączę AI, dane i biznes',
-      description: 'Rozwijam pomysły od hackathonów aż po pełnoprawne startupy. Uwielbiam szybkie prototypowanie i nieustanne odkrywanie nowych technologii.',
+      subtitle: 'Buduję produkty na styku AI i biznesu',
+      description: 'Od hackathonów po produkty z milionowym finansowaniem. Specjalizuję się w szybkim prototypowaniu rozwiązań AI, które mają realny wpływ na biznes.',
       cta: {
-        primary: 'Zobacz projekty',
-        secondary: 'Spotkajmy się!',
+        primary: 'Zobacz co buduję',
+        secondary: 'Umów rozmowę',
       },
     },
     projects: {
@@ -35,7 +35,7 @@ export const translations = {
     },
     contact: {
       title: 'Kontakt',
-      subtitle: 'Porozmawiajmy o Twoim następnym projekcie',
+      subtitle: 'Masz pomysł? Porozmawiajmy o tym, jak AI może pomóc Twojemu biznesowi.',
       form: {
         name: 'Imię',
         email: 'Email',
@@ -56,13 +56,13 @@ export const translations = {
       contact: 'Contact',
     },
     hero: {
-      badge: 'AI Explainer & Tech Entrepreneur',
+      badge: 'AI Entrepreneur & Builder',
       greeting: "Hi, I'm Daniel",
-      subtitle: 'Passionately combining AI, data, and business',
-      description: 'Developing ideas from hackathons to full-fledged startups. I love rapid prototyping and constantly discovering new technologies.',
+      subtitle: 'Building products where AI meets business',
+      description: 'From hackathons to products with million-dollar funding. I specialize in rapid prototyping of AI solutions that drive real business impact.',
       cta: {
-        primary: 'View Projects',
-        secondary: "Let's Meet!",
+        primary: 'See what I build',
+        secondary: 'Book a call',
       },
     },
     projects: {
@@ -79,7 +79,7 @@ export const translations = {
     },
     contact: {
       title: 'Contact',
-      subtitle: "Let's talk about your next project",
+      subtitle: "Got an idea? Let's talk about how AI can help your business.",
       form: {
         name: 'Name',
         email: 'Email',

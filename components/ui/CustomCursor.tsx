@@ -1,36 +1,43 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 
 export function CustomCursor() {
   const [position, setPosition] = useState({ x: 0, y: 0 })
   const [isPointer, setIsPointer] = useState(false)
   const [isTouchDevice, setIsTouchDevice] = useState(false)
+  const rafRef = useRef<number>(0)
 
   useEffect(() => {
-    // Detect touch device
     setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0)
   }, [])
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      setPosition({ x: e.clientX, y: e.clientY })
+      if (rafRef.current) cancelAnimationFrame(rafRef.current)
 
-      const target = e.target as HTMLElement
-      setIsPointer(window.getComputedStyle(target).cursor === 'pointer')
+      rafRef.current = requestAnimationFrame(() => {
+        setPosition({ x: e.clientX, y: e.clientY })
+
+        const target = e.target as HTMLElement
+        const isClickable = !!target.closest('a, button, [role="button"], input, textarea, select, label[for]')
+        setIsPointer(isClickable)
+      })
     }
 
-    window.addEventListener('mousemove', handleMouseMove)
-    return () => window.removeEventListener('mousemove', handleMouseMove)
+    window.addEventListener('mousemove', handleMouseMove, { passive: true })
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove)
+      if (rafRef.current) cancelAnimationFrame(rafRef.current)
+    }
   }, [])
 
-  // Don't render on touch devices
   if (isTouchDevice) return null
 
   return (
     <motion.div
-      className="pointer-events-none fixed left-0 top-0 z-[9999]"
+      className="pointer-events-none fixed left-0 top-0 z-[9999] will-change-transform"
       animate={{
         x: position.x - (isPointer ? 20 : 10),
         y: position.y - (isPointer ? 20 : 10),
@@ -44,12 +51,12 @@ export function CustomCursor() {
       }}
     >
       <div
-        className={`rounded-full bg-primary/30 blur-md transition-all duration-300 ${
+        className={`rounded-full bg-primary/30 blur-md transition-all duration-200 ${
           isPointer ? 'h-10 w-10' : 'h-5 w-5'
         }`}
       />
       <div
-        className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/50 transition-all duration-300 ${
+        className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/50 transition-all duration-200 ${
           isPointer ? 'h-4 w-4 bg-white' : 'h-2 w-2 bg-transparent'
         }`}
       />

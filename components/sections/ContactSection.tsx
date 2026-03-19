@@ -5,6 +5,8 @@ import { Mail, MapPin, Calendar } from 'lucide-react'
 import { getTranslations, type Locale } from '@/lib/i18n'
 import { GlassCard } from '@/components/ui/GlassCard'
 
+const easeOutExpo = [0.16, 1, 0.3, 1] as const
+
 export function ContactSection({ locale }: { locale: Locale }) {
   const t = getTranslations(locale)
 
@@ -22,18 +24,18 @@ export function ContactSection({ locale }: { locale: Locale }) {
   }
 
   return (
-    <section id="contact" className="py-32 relative z-10">
+    <section id="contact" className="py-24 lg:py-32 relative z-10">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
           className="text-center mb-16"
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "0px 0px -100px 0px" }}
-          transition={{ duration: 0.4 }}
+          viewport={{ once: true, margin: "-20%" }}
+          transition={{ duration: 0.5, ease: easeOutExpo }}
         >
-          <h2 className="text-5xl font-black mb-6 tracking-tight">{t.contact.title}</h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto font-light">
+          <h2 className="font-heading text-4xl sm:text-5xl font-bold mb-6 tracking-tight text-balance">{t.contact.title}</h2>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             {t.contact.subtitle}
           </p>
         </motion.div>
@@ -58,8 +60,8 @@ export function ContactSection({ locale }: { locale: Locale }) {
                   key={item.label}
                   initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "0px 0px -100px 0px" }}
-                  transition={{ delay: index * 0.1, duration: 0.4 }}
+                  viewport={{ once: true, margin: "-20%" }}
+                  transition={{ delay: index * 0.08, duration: 0.5, ease: easeOutExpo }}
                   className="h-full"
                 >
                   {item.link ? (
@@ -67,7 +69,7 @@ export function ContactSection({ locale }: { locale: Locale }) {
                       href={item.link}
                       target={item.link.startsWith('http') ? '_blank' : undefined}
                       rel={item.link.startsWith('http') ? 'noopener noreferrer' : undefined}
-                      className="block h-full hover:scale-105 transition-transform duration-300"
+                      className="block h-full hover:scale-[1.02] hover:-translate-y-1 transition-all duration-300"
                     >
                       {CardContent}
                     </a>

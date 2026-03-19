@@ -1,4 +1,4 @@
-import { Github, Linkedin, Twitter, Mail } from 'lucide-react'
+import { Github, Linkedin, Twitter, Mail, BookOpen } from 'lucide-react'
 import { getTranslations, type Locale } from '@/lib/i18n'
 
 export function Footer({ locale }: { locale: Locale }) {
@@ -20,6 +20,11 @@ export function Footer({ locale }: { locale: Locale }) {
       name: 'Twitter',
       href: 'https://twitter.com/DaGaszczyk',
       icon: Twitter,
+    },
+    {
+      name: 'Substack',
+      href: 'https://substack.com/@danielgaszczyk',
+      icon: BookOpen,
     },
     {
       name: 'Email',

@@ -9,6 +9,8 @@ import { getTranslations, type Locale } from '@/lib/i18n'
 import { FloatingParticles } from '@/components/effects/FloatingParticles'
 import { ProjectShowcase } from '@/components/ui/ProjectShowcase'
 
+const easeOutExpo = [0.16, 1, 0.3, 1] as const
+
 export function HeroSection({ locale }: { locale: Locale }) {
   const t = getTranslations(locale)
   const [mounted, setMounted] = useState(false)
@@ -20,7 +22,6 @@ export function HeroSection({ locale }: { locale: Locale }) {
     setMounted(true)
   }, [])
 
-  // Helper function to apply shimmer to specific words
   const renderShimmeredText = (text: string, shimmerWords: string[]) => {
     return text.split(' ').map((word, i) => {
       const shouldShimmer = shimmerWords.some(sw => word.toLowerCase().includes(sw.toLowerCase()))
@@ -36,54 +37,68 @@ export function HeroSection({ locale }: { locale: Locale }) {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden perspective-2000">
-      {/* Background effects */}
       <FloatingParticles />
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
-          
+
           {/* Text Content */}
           <motion.div
             className="flex-1 text-center lg:text-left"
-            initial={{ opacity: 0, x: -50 }}
+            initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
+            transition={{ duration: 0.7, ease: easeOutExpo }}
           >
             {/* Badge */}
             <motion.div
               className="mb-8 inline-flex items-center gap-2 px-6 py-2 rounded-full glass border-primary/30 bg-primary/10"
               initial={{ y: -20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.2 }}
+              transition={{ delay: 0.1, ease: easeOutExpo }}
             >
               <Sparkles className="w-4 h-4 text-primary animate-pulse" />
-              <span className="text-sm font-medium tracking-wide uppercase text-white">{t.hero.badge}</span>
+              <span className="text-sm font-medium tracking-[0.15em] uppercase text-white/90">{t.hero.badge}</span>
             </motion.div>
 
             {/* H1 Greeting */}
-            <h1 className="text-6xl sm:text-7xl md:text-8xl font-black mb-8 leading-tight tracking-tighter">
-              <span className="block">{t.hero.greeting}</span>
-            </h1>
+            <motion.h1
+              className="font-heading text-6xl sm:text-7xl md:text-8xl font-bold mb-6 leading-[0.95] tracking-tight text-balance"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2, duration: 0.6, ease: easeOutExpo }}
+            >
+              {t.hero.greeting}
+            </motion.h1>
 
-            <h2 className="text-5xl sm:text-6xl md:text-7xl font-black mb-8 leading-tight tracking-tighter">
-              {renderShimmeredText(t.hero.subtitle, locale === 'pl' ? ['AI', 'biznes'] : ['AI', 'business'])}
-            </h2>
+            <motion.h2
+              className="font-heading text-4xl sm:text-5xl md:text-6xl font-bold mb-8 leading-tight tracking-tight text-balance"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.6, ease: easeOutExpo }}
+            >
+              {renderShimmeredText(t.hero.subtitle, locale === 'pl' ? ['AI', 'biznesu'] : ['AI', 'business'])}
+            </motion.h2>
 
-            <p className="text-xl sm:text-2xl text-foreground/95 mb-8 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-light">
+            <motion.p
+              className="text-lg sm:text-xl text-foreground/80 mb-8 max-w-2xl mx-auto lg:mx-0 leading-relaxed"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4, duration: 0.6, ease: easeOutExpo }}
+            >
               {t.hero.description}
-            </p>
+            </motion.p>
 
             {/* Social Media Links */}
             <motion.div
-              className="flex gap-6 mb-12 justify-center lg:justify-start"
+              className="flex gap-6 mb-10 justify-center lg:justify-start"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 }}
+              transition={{ delay: 0.5, ease: easeOutExpo }}
             >
               <a
                 href="https://www.linkedin.com/in/daniel-gaszczyk/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-white/60 hover:text-white hover:scale-110 transition-all"
+                className="text-white/50 hover:text-white hover:scale-110 transition-all duration-200"
                 aria-label="LinkedIn"
               >
                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
@@ -94,7 +109,7 @@ export function HeroSection({ locale }: { locale: Locale }) {
                 href="https://substack.com/@danielgaszczyk"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-white/60 hover:text-white hover:scale-110 transition-all"
+                className="text-white/50 hover:text-white hover:scale-110 transition-all duration-200"
                 aria-label="Substack"
               >
                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
@@ -104,17 +119,19 @@ export function HeroSection({ locale }: { locale: Locale }) {
             </motion.div>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start">
+            <motion.div
+              className="flex flex-col sm:flex-row gap-5 justify-center lg:justify-start"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6, ease: easeOutExpo }}
+            >
               <Link href={`/${locale}/projects`}>
-                <Button size="xl" className="group text-lg px-8 py-6 rounded-2xl relative overflow-hidden bg-white text-black hover:bg-white/95 transition-all hover:-translate-y-2 hover:shadow-[0_25px_70px_rgba(255,255,255,0.4),0_0_40px_rgba(59,130,246,0.3)] hover:scale-105">
+                <Button size="xl" className="group text-lg px-8 py-6 rounded-2xl relative overflow-hidden bg-white text-black hover:bg-white/95 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_50px_rgba(255,255,255,0.25),0_0_30px_rgba(99,102,241,0.2)] hover:scale-[1.02]">
                   <span className="relative z-10 flex items-center">
-                    <Code2 className="mr-2 h-5 w-5 group-hover:rotate-12 transition-transform" />
+                    <Code2 className="mr-2 h-5 w-5 group-hover:rotate-12 transition-transform duration-300" />
                     {t.hero.cta.primary}
                   </span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-400 via-purple-400 to-blue-400 opacity-0 group-hover:opacity-25 transition-all duration-500 animate-shimmer" />
-                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
-                  </div>
+                  <div className="absolute inset-0 bg-gradient-to-r from-indigo-400 via-violet-400 to-indigo-400 opacity-0 group-hover:opacity-20 transition-all duration-500" />
                 </Button>
               </Link>
               <a
@@ -122,24 +139,24 @@ export function HeroSection({ locale }: { locale: Locale }) {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <Button size="xl" variant="outline" className="group text-lg px-8 py-6 rounded-2xl border-white/20 hover:bg-white/10 backdrop-blur-md transition-all hover:-translate-y-2 hover:shadow-[0_15px_50px_rgba(147,197,253,0.5),0_0_40px_rgba(59,130,246,0.4)] hover:border-blue-400/60 hover:scale-105 relative overflow-hidden">
+                <Button size="xl" variant="outline" className="group text-lg px-8 py-6 rounded-2xl border-white/15 hover:bg-white/5 backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_15px_40px_rgba(139,92,246,0.3),0_0_30px_rgba(99,102,241,0.2)] hover:border-indigo-400/50 hover:scale-[1.02] relative overflow-hidden">
                   <span className="relative z-10 flex items-center">
-                    <Calendar className="mr-2 h-5 w-5 group-hover:rotate-12 transition-transform" />
+                    <Calendar className="mr-2 h-5 w-5 group-hover:rotate-12 transition-transform duration-300" />
                     {t.hero.cta.secondary}
                   </span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-500/0 via-blue-400/20 to-blue-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/0 via-indigo-400/15 to-indigo-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 </Button>
               </a>
-            </div>
+            </motion.div>
           </motion.div>
 
           {/* Project Showcase Bento Grid */}
           <motion.div
             className="flex-1 relative hidden lg:block"
             style={{ y: y2 }}
-            initial={{ opacity: 0, scale: 0.8 }}
+            initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, delay: 0.2 }}
+            transition={{ duration: 0.8, delay: 0.3, ease: easeOutExpo }}
           >
             <ProjectShowcase />
           </motion.div>
@@ -149,10 +166,10 @@ export function HeroSection({ locale }: { locale: Locale }) {
         <motion.div
           className="absolute bottom-10 left-1/2 -translate-x-1/2"
           style={{ opacity }}
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
+          animate={{ y: [0, 8, 0] }}
+          transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
         >
-          <ArrowDown className="h-8 w-8 text-muted-foreground/50" />
+          <ArrowDown className="h-7 w-7 text-muted-foreground/40" />
         </motion.div>
       </div>
     </section>

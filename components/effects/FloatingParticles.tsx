@@ -8,22 +8,20 @@ export function FloatingParticles() {
   const isMobile = useIsMobile()
   const prefersReducedMotion = usePrefersReducedMotion()
 
-  // Mobile: 5 particles, Desktop: 10 particles
-  const particleCount = isMobile ? 5 : 10
+  const particleCount = isMobile ? 3 : 6
 
   const particles = useMemo(() => {
     return Array.from({ length: particleCount }, (_, i) => ({
       id: i,
       x: Math.random() * 100,
       y: Math.random() * 100,
-      size: Math.random() * 4 + 2,
-      duration: Math.random() * 20 + 15,
+      size: Math.random() * 3 + 2,
+      duration: Math.random() * 25 + 20,
       delay: Math.random() * 5,
-      opacity: Math.random() * 0.6 + 0.2,
+      opacity: Math.random() * 0.4 + 0.1,
     }))
   }, [particleCount])
 
-  // Don't render if user prefers reduced motion
   if (prefersReducedMotion) return null
 
   return (
@@ -31,7 +29,7 @@ export function FloatingParticles() {
       {particles.map((particle) => (
         <motion.div
           key={particle.id}
-          className="absolute rounded-full bg-white/30"
+          className="absolute rounded-full bg-white/20"
           style={{
             left: `${particle.x}%`,
             top: `${particle.y}%`,
@@ -39,12 +37,13 @@ export function FloatingParticles() {
             height: particle.size,
             opacity: particle.opacity,
             filter: 'blur(1px)',
+            willChange: 'transform',
           }}
           animate={{
-            y: [0, -100, 0],
-            x: [0, Math.sin(particle.id) * 50, 0],
-            scale: [1, 1.5, 1],
-            opacity: [particle.opacity, particle.opacity * 0.3, particle.opacity],
+            y: [0, -80, 0],
+            x: [0, Math.sin(particle.id) * 30, 0],
+            scale: [1, 1.3, 1],
+            opacity: [particle.opacity, particle.opacity * 0.4, particle.opacity],
           }}
           transition={{
             duration: particle.duration,

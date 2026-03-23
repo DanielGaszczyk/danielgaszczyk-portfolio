@@ -50,8 +50,14 @@ export const translations = {
       subtitle: 'Myśli o technologii, AI i przedsiębiorczości',
       comingSoon: 'Wkrótce',
     },
+    ctaBanner: {
+      title: 'Zbudujmy coś razem.',
+      subtitle: 'Masz pomysł na projekt z AI? Porozmawiajmy.',
+      cta: 'Umów rozmowę',
+    },
     footer: {
       rights: 'Wszelkie prawa zastrzeżone',
+      tagline: 'Buduję na styku AI i biznesu',
     },
   },
   en: {
@@ -101,8 +107,14 @@ export const translations = {
       subtitle: 'Thoughts on technology, AI, and entrepreneurship',
       comingSoon: 'Coming Soon',
     },
+    ctaBanner: {
+      title: "Let's build something together.",
+      subtitle: 'Got an AI project idea? Let\'s talk.',
+      cta: 'Book a call',
+    },
     footer: {
       rights: 'All rights reserved',
+      tagline: 'Building at the intersection of AI and business',
     },
   },
 }

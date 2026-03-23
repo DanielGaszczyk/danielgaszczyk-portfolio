@@ -24,6 +24,8 @@ export const translations = {
     projects: {
       title: 'Wybrane Projekty',
       subtitle: 'Kilka wybranych projektów w których miałem przyjemność uczestniczyć',
+      allTitle: 'Wszystkie Projekty',
+      allSubtitle: 'Pełna lista projektów nad którymi pracowałem',
       viewMore: 'Zobacz więcej',
       technologies: 'Technologie',
       liveDemo: 'Demo',
@@ -42,6 +44,11 @@ export const translations = {
         message: 'Wiadomość',
         send: 'Wyślij',
       },
+    },
+    blog: {
+      title: 'Blog',
+      subtitle: 'Myśli o technologii, AI i przedsiębiorczości',
+      comingSoon: 'Wkrótce',
     },
     footer: {
       rights: 'Wszelkie prawa zastrzeżone',
@@ -68,6 +75,8 @@ export const translations = {
     projects: {
       title: 'Featured Projects',
       subtitle: 'Selected projects I had the pleasure to participate in',
+      allTitle: 'All Projects',
+      allSubtitle: 'Complete list of projects I have worked on',
       viewMore: 'View More',
       technologies: 'Technologies',
       liveDemo: 'Demo',
@@ -86,6 +95,11 @@ export const translations = {
         message: 'Message',
         send: 'Send',
       },
+    },
+    blog: {
+      title: 'Blog',
+      subtitle: 'Thoughts on technology, AI, and entrepreneurship',
+      comingSoon: 'Coming Soon',
     },
     footer: {
       rights: 'All rights reserved',

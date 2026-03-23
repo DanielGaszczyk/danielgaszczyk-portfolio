@@ -1,10 +1,11 @@
 import { Calendar, Clock } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
-import { type Locale } from '@/lib/i18n'
+import { getTranslations, type Locale } from '@/lib/i18n'
 import { getBlogPosts } from '@/lib/blog'
 
 export function BlogList({ locale }: { locale: Locale }) {
+  const t = getTranslations(locale)
   const posts = getBlogPosts(locale)
 
   return (
@@ -12,7 +13,7 @@ export function BlogList({ locale }: { locale: Locale }) {
       <div className="space-y-12">
         {posts.map((post) => (
           <div key={post.slug}>
-            <Card variant="glass" className="hover:scale-[1.02] transition-all duration-300 opacity-60 cursor-not-allowed">
+            <Card variant="glass" className="hover:scale-[1.02] hover:-translate-y-1 transition-all duration-300 opacity-60 cursor-not-allowed">
               <CardHeader>
                 <div className="flex items-center gap-4 text-sm text-muted-foreground mb-2">
                   <span className="flex items-center gap-1">
@@ -24,10 +25,10 @@ export function BlogList({ locale }: { locale: Locale }) {
                     {post.readingTime}
                   </span>
                   <Badge variant="secondary" className="ml-auto">
-                    {locale === 'pl' ? 'Wkrótce' : 'Coming Soon'}
+                    {t.blog.comingSoon}
                   </Badge>
                 </div>
-                <CardTitle className="text-2xl">{post.title}</CardTitle>
+                <CardTitle className="text-2xl font-heading">{post.title}</CardTitle>
                 <CardDescription className="mt-2 text-base">
                   {post.excerpt}
                 </CardDescription>

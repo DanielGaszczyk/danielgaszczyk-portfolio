@@ -18,12 +18,12 @@ export async function generateMetadata({
   
   const metadata = {
     pl: {
-      title: 'Daniel Gaszczyk - Tłumaczę AI | Automatyzacja Biznesu | TeamFeedback CTO',
-      description: 'Tłumaczę AI i automatyzację biznesu. Twórca TeamFeedback (1M+ PLN finansowania), DailySpark. Wdrożenia AI dla MŚP - ROI w 3-6 miesięcy. 5+ lat doświadczenia, 30+ projektów.',
+      title: 'Daniel Gaszczyk - AI × Biznes × Technologia | TeamFeedback CTO',
+      description: 'Buduję produkty na styku AI i biznesu. Twórca TeamFeedback (1M+ PLN finansowania), DailySpark. Wdrożenia AI dla MŚP - ROI w 3-6 miesięcy. 8+ lat doświadczenia, 20+ projektów.',
     },
     en: {
-      title: 'Daniel Gaszczyk - AI Explainer | Business Automation | TeamFeedback CTO',
-      description: 'I explain AI and business automation. Creator of TeamFeedback (1M+ PLN funding), DailySpark. AI implementations for SMEs - ROI in 3-6 months. 5+ years experience, 30+ projects.',
+      title: 'Daniel Gaszczyk - AI Entrepreneur & Builder | TeamFeedback CTO',
+      description: 'Building products where AI meets business. Creator of TeamFeedback (1M+ PLN funding), DailySpark. AI implementations for SMEs - ROI in 3-6 months. 8+ years experience, 20+ projects.',
     },
   }
 
@@ -118,7 +118,7 @@ export default async function LocaleLayout({
     name: 'Daniel Gaszczyk',
     alternateName: 'Daniel Gąszczyk',
     url: 'https://danielgaszczyk.com',
-    jobTitle: locale === 'pl' ? 'Tłumaczę AI | CTO' : 'AI Explainer | CTO',
+    jobTitle: locale === 'pl' ? 'AI Entrepreneur | CTO' : 'AI Entrepreneur | CTO',
     worksFor: [
       {
         '@type': 'Organization',

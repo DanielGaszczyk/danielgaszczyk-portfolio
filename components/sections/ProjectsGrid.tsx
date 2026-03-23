@@ -3,11 +3,12 @@
 import { ExternalLink, Github } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
-import { type Locale } from '@/lib/i18n'
+import { getTranslations, type Locale } from '@/lib/i18n'
 import { cn } from '@/lib/utils'
 import { getAllProjects } from '@/lib/projects'
 
 export function ProjectsGrid({ locale }: { locale: Locale }) {
+  const t = getTranslations(locale)
   const projects = getAllProjects(locale)
 
   return (
@@ -18,7 +19,7 @@ export function ProjectsGrid({ locale }: { locale: Locale }) {
             key={project.id}
             variant="glass"
             className={cn(
-              'group hover:scale-105 transition-all duration-300',
+              'group hover:scale-[1.02] hover:-translate-y-1 transition-all duration-300',
               'animate-fade-up'
             )}
             style={{ animationDelay: `${index * 0.05}s` }}
@@ -27,7 +28,7 @@ export function ProjectsGrid({ locale }: { locale: Locale }) {
               <div className="h-48 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-lg mb-4 flex items-center justify-center">
                 <span className="text-6xl">{project.emoji || '🚀'}</span>
               </div>
-              <CardTitle>{project.title}</CardTitle>
+              <CardTitle className="font-heading">{project.title}</CardTitle>
               <CardDescription className="mt-2">
                 {project.description}
               </CardDescription>
@@ -42,7 +43,7 @@ export function ProjectsGrid({ locale }: { locale: Locale }) {
                   >
                     <Button size="sm" variant="outline">
                       <ExternalLink className="h-4 w-4 mr-1" />
-                      Demo
+                      {t.projects.liveDemo}
                     </Button>
                   </a>
                 )}

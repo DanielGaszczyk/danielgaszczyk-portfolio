@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Home, Code2, BookOpen, User, Mail, Globe } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { type Locale } from '@/lib/i18n'
+import { getTranslations, type Locale } from '@/lib/i18n'
 
 interface NavItem {
   href: string
@@ -29,12 +29,14 @@ export function FloatingNav({ locale }: { locale: Locale }) {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  const t = getTranslations(locale)
+
   const navItems: NavItem[] = [
-    { href: `/${locale}`, icon: Home, label: 'Home' },
-    { href: `/${locale}/projects`, icon: Code2, label: 'Projects' },
-    { href: `/${locale}/blog`, icon: BookOpen, label: 'Blog' },
-    { href: `/${locale}/about`, icon: User, label: 'About' },
-    { href: `/${locale}/contact`, icon: Mail, label: 'Contact' },
+    { href: `/${locale}`, icon: Home, label: t.nav.home },
+    { href: `/${locale}/projects`, icon: Code2, label: t.nav.projects },
+    { href: `/${locale}/blog`, icon: BookOpen, label: t.nav.blog },
+    { href: `/${locale}/about`, icon: User, label: t.nav.about },
+    { href: `/${locale}/contact`, icon: Mail, label: t.nav.contact },
   ]
 
   return (

@@ -24,6 +24,8 @@ export const translations = {
     projects: {
       title: 'Wybrane Projekty',
       subtitle: 'Kilka wybranych projektów w których miałem przyjemność uczestniczyć',
+      allTitle: 'Wszystkie Projekty',
+      allSubtitle: 'Pełna lista projektów nad którymi pracowałem',
       viewMore: 'Zobacz więcej',
       technologies: 'Technologie',
       liveDemo: 'Demo',
@@ -43,8 +45,19 @@ export const translations = {
         send: 'Wyślij',
       },
     },
+    blog: {
+      title: 'Blog',
+      subtitle: 'Myśli o technologii, AI i przedsiębiorczości',
+      comingSoon: 'Wkrótce',
+    },
+    ctaBanner: {
+      title: 'Zbudujmy coś razem.',
+      subtitle: 'Masz pomysł na projekt z AI? Porozmawiajmy.',
+      cta: 'Umów rozmowę',
+    },
     footer: {
       rights: 'Wszelkie prawa zastrzeżone',
+      tagline: 'Buduję na styku AI i biznesu',
     },
   },
   en: {
@@ -68,6 +81,8 @@ export const translations = {
     projects: {
       title: 'Featured Projects',
       subtitle: 'Selected projects I had the pleasure to participate in',
+      allTitle: 'All Projects',
+      allSubtitle: 'Complete list of projects I have worked on',
       viewMore: 'View More',
       technologies: 'Technologies',
       liveDemo: 'Demo',
@@ -87,8 +102,19 @@ export const translations = {
         send: 'Send',
       },
     },
+    blog: {
+      title: 'Blog',
+      subtitle: 'Thoughts on technology, AI, and entrepreneurship',
+      comingSoon: 'Coming Soon',
+    },
+    ctaBanner: {
+      title: "Let's build something together.",
+      subtitle: 'Got an AI project idea? Let\'s talk.',
+      cta: 'Book a call',
+    },
     footer: {
       rights: 'All rights reserved',
+      tagline: 'Building at the intersection of AI and business',
     },
   },
 }

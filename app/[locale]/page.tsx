@@ -10,9 +10,13 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
   return (
     <>
       <HeroSection locale={locale} />
+      <hr className="section-divider" />
       <ProjectsSection locale={locale} />
+      <hr className="section-divider" />
       <SkillsSection locale={locale} />
+      <hr className="section-divider" />
       <AboutSection locale={locale} />
+      <hr className="section-divider" />
       <ContactSection locale={locale} />
     </>
   )

@@ -162,6 +162,26 @@ export function HeroSection({ locale }: { locale: Locale }) {
           </motion.div>
         </div>
 
+        {/* Mobile Stats Bar */}
+        <motion.div
+          className="flex lg:hidden justify-center mt-10"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.7, ease: easeOutExpo }}
+        >
+          <div className="inline-flex items-center gap-3 sm:gap-5 px-6 py-3 rounded-full glass text-sm">
+            <span className="text-white/90 font-medium">
+              {locale === 'pl' ? '8+ lat' : '8+ yrs'}
+            </span>
+            <span className="text-white/30">·</span>
+            <span className="text-white/90 font-medium">
+              {locale === 'pl' ? '20+ projektów' : '20+ projects'}
+            </span>
+            <span className="text-white/30">·</span>
+            <span className="text-white/90 font-medium">1M+ PLN</span>
+          </div>
+        </motion.div>
+
         {/* Scroll indicator */}
         <motion.div
           className="absolute bottom-10 left-1/2 -translate-x-1/2"

@@ -47,7 +47,7 @@ export function Header({ locale }: { locale: Locale }) {
       className={cn(
         'fixed top-0 z-50 w-full transition-all duration-300',
         isScrolled
-          ? 'glass border-b border-white/10'
+          ? 'glass border-b border-white/10 md:-translate-y-full md:opacity-0 md:pointer-events-none'
           : 'bg-transparent'
       )}
     >

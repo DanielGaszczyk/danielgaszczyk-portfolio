@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Award, Briefcase, GraduationCap, Heart } from 'lucide-react'
+import { Award, Briefcase } from 'lucide-react'
 import { type Locale } from '@/lib/i18n'
 import { GlassCard } from '@/components/ui/GlassCard'
 
@@ -20,8 +20,6 @@ export function AboutSection({ locale }: { locale: Locale }) {
       stats: [
         { icon: Briefcase, label: 'Lat doświadczenia', value: '8+' },
         { icon: Award, label: 'Ukończonych projektów', value: '20+' },
-        { icon: GraduationCap, label: 'Certyfikatów', value: '12' },
-        { icon: Heart, label: 'Zadowolonych klientów', value: '50+' },
       ],
     },
     en: {
@@ -34,8 +32,6 @@ export function AboutSection({ locale }: { locale: Locale }) {
       stats: [
         { icon: Briefcase, label: 'Years of experience', value: '8+' },
         { icon: Award, label: 'Completed projects', value: '20+' },
-        { icon: GraduationCap, label: 'Certifications', value: '12' },
-        { icon: Heart, label: 'Happy clients', value: '50+' },
       ],
     },
   }

@@ -43,7 +43,6 @@ const config: Config = {
       fontFamily: {
         sans: ['var(--font-inter)'],
         heading: ['var(--font-space-grotesk)', 'var(--font-inter)'],
-        mono: ['var(--font-jetbrains-mono)'],
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',

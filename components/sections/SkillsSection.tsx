@@ -1,5 +1,11 @@
+'use client'
+
+import { motion } from 'framer-motion'
 import { Badge } from '@/components/ui/Badge'
 import { type Locale } from '@/lib/i18n'
+import { GlassCard } from '@/components/ui/GlassCard'
+
+const easeOutExpo = [0.16, 1, 0.3, 1] as const
 
 const skills: Record<string, { pl: string; en: string; items: string[] }> = {
   'ai-ml': {
@@ -7,22 +13,22 @@ const skills: Record<string, { pl: string; en: string; items: string[] }> = {
     en: 'AI & Machine Learning',
     items: ['OpenAI API', 'Gemini API', 'ElevenLabs API', 'Hugging Face', 'LangChain'],
   },
-  startup: {
+  'startup': {
     pl: 'Startup & SaaS',
     en: 'Startup & SaaS',
     items: ['Lean Startup', 'MVP Development', 'Growth Hacking', 'Metrics & KPIs', 'Fundraising', 'Build in Public'],
   },
-  automation: {
+  'automation': {
     pl: 'Automatyzacja & Integracje',
     en: 'Automation & Integrations',
     items: ['n8n', 'API Integration', 'Webhook Automation', 'RPA'],
   },
-  cloud: {
+  'cloud': {
     pl: 'Cloud & DevOps',
     en: 'Cloud & DevOps',
     items: ['Azure', 'VPS', 'Docker', 'Kubernetes', 'CI/CD', 'GitHub Actions'],
   },
-  business: {
+  'business': {
     pl: 'Biznes & Strategia',
     en: 'Business & Strategy',
     items: ['Product Management', 'Startup Development', 'Digital Transformation', 'Agile/Scrum', 'Team Leadership'],
@@ -30,51 +36,55 @@ const skills: Record<string, { pl: string; en: string; items: string[] }> = {
 }
 
 export function SkillsSection({ locale }: { locale: Locale }) {
-  const title = locale === 'pl' ? 'Kompetencje i narzędzia' : 'Capabilities and tools'
-  const subtitle =
-    locale === 'pl'
-      ? 'To zestaw kompetencji, którym łączę warstwę strategiczną, produktową i techniczną.'
-      : 'This is the stack I use to connect strategy, product thinking, and technical execution.'
+  const title = locale === 'pl' ? 'Umiejętności i Technologie' : 'Skills & Technologies'
+  const subtitle = locale === 'pl'
+    ? 'Technologie i narzędzia, które wykorzystuję w codziennej pracy'
+    : 'Technologies and tools I use in my daily work'
 
   return (
-    <section className="relative z-10 py-24 lg:py-32">
+    <section className="py-24 lg:py-32 relative z-10 overflow-hidden">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mb-14 grid gap-6 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,0.8fr)] lg:items-end">
-          <div>
-            <span className="eyebrow mb-5">Capability matrix</span>
-            <h2 className="font-heading text-4xl font-semibold tracking-[-0.06em] text-balance sm:text-5xl lg:text-6xl">
-              {title}
-            </h2>
-          </div>
-          <p className="max-w-readable text-base leading-relaxed text-foreground/60 sm:text-lg">{subtitle}</p>
-        </div>
+        <motion.div
+          className="text-center mb-20"
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-20%" }}
+          transition={{ duration: 0.5, ease: easeOutExpo }}
+        >
+          <h2 className="font-heading text-4xl sm:text-5xl font-bold mb-6 tracking-tight text-white text-balance">
+            {title}
+          </h2>
+          <p className="text-lg text-foreground/80 max-w-2xl mx-auto">
+            {subtitle}
+          </p>
+        </motion.div>
 
-        <div className="grid gap-5 lg:grid-cols-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {Object.entries(skills).map(([key, category], index) => (
-            <article key={key} className="surface-panel surface-hover p-6 sm:p-7">
-              <div className="flex items-start justify-between gap-4 border-b border-white/10 pb-5">
-                <div>
-                  <span className="text-xs uppercase tracking-[0.18em] text-foreground/40">0{index + 1}</span>
-                  <h3 className="mt-3 font-heading text-2xl font-semibold tracking-[-0.05em] text-foreground">
-                    {category[locale]}
-                  </h3>
+            <motion.div
+              key={key}
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-20%" }}
+              transition={{ delay: index * 0.08, duration: 0.5, ease: easeOutExpo }}
+            >
+              <GlassCard className="h-full" hoverEffect={false}>
+                <h3 className="text-xl font-heading font-bold mb-6 gradient-text">
+                  {category[locale]}
+                </h3>
+                <div className="flex flex-wrap gap-3">
+                  {category.items.map((skill) => (
+                    <Badge
+                      key={skill}
+                      variant="secondary"
+                      className="bg-white/5 border-white/10 text-white px-3 py-1 text-sm font-medium backdrop-blur-sm"
+                    >
+                      {skill}
+                    </Badge>
+                  ))}
                 </div>
-                <span className="rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-xs uppercase tracking-[0.16em] text-primary">
-                  {category.items.length}
-                </span>
-              </div>
-              <div className="mt-6 flex flex-wrap gap-2.5">
-                {category.items.map((skill) => (
-                  <Badge
-                    key={skill}
-                    variant="outline"
-                    className="rounded-full border-white/10 bg-white/[0.03] px-3 py-1.5 text-[0.72rem] font-medium uppercase tracking-[0.12em] text-foreground/60"
-                  >
-                    {skill}
-                  </Badge>
-                ))}
-              </div>
-            </article>
+              </GlassCard>
+            </motion.div>
           ))}
         </div>
       </div>

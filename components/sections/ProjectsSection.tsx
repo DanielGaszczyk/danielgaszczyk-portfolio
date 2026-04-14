@@ -1,5 +1,8 @@
-import Link from 'next/link'
+'use client'
+
+import { useState, useEffect, useRef } from 'react'
 import { ExternalLink, Github } from 'lucide-react'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { getTranslations, type Locale } from '@/lib/i18n'
 import { getAllProjects } from '@/lib/projects'
@@ -7,92 +10,101 @@ import { cn } from '@/lib/utils'
 
 export function ProjectsSection({ locale }: { locale: Locale }) {
   const t = getTranslations(locale)
-  const featuredProjects = getAllProjects(locale).filter((project) => project.featured).slice(0, 4)
+  const [visibleProjects, setVisibleProjects] = useState<Set<string>>(new Set())
+  const projectRefs = useRef<Map<string, HTMLDivElement>>(new Map())
+  const allProjects = getAllProjects(locale)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const projectId = entry.target.getAttribute('data-project-id')
+            if (projectId) {
+              setVisibleProjects((prev) => new Set(prev).add(projectId))
+            }
+          }
+        })
+      },
+      { threshold: 0.1, rootMargin: '50px' }
+    )
+
+    projectRefs.current.forEach((ref) => {
+      if (ref) observer.observe(ref)
+    })
+
+    return () => observer.disconnect()
+  }, [allProjects])
 
   return (
-    <section id="projects" className="relative z-10 py-24 lg:py-32">
+    <section id="projects" className="py-24 lg:py-32 relative z-10">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mb-14 grid gap-6 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,0.8fr)] lg:items-end">
-          <div>
-            <span className="eyebrow mb-5">Selected work</span>
-            <h2 className="font-heading text-4xl font-semibold tracking-[-0.06em] text-balance sm:text-5xl lg:text-6xl">
-              {t.projects.title}
-            </h2>
-          </div>
-          <p className="max-w-readable text-base leading-relaxed text-foreground/60 sm:text-lg">
+        <div className="text-center mb-16">
+          <h2 className="font-heading text-4xl sm:text-5xl font-bold mb-4 tracking-tight text-balance">{t.projects.title}</h2>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             {t.projects.subtitle}
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
-          {featuredProjects.map((project, index) => (
-            <article
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {allProjects.map((project, index) => (
+            <Card
               key={project.id}
+              ref={(el) => {
+                if (el) projectRefs.current.set(project.id, el)
+              }}
+              data-project-id={project.id}
+              variant="glass"
               className={cn(
-                'surface-panel surface-hover flex h-full flex-col p-6 sm:p-8',
-                index === 0 && 'lg:col-span-7',
-                index === 1 && 'lg:col-span-5',
-                index === 2 && 'lg:col-span-5',
-                index === 3 && 'lg:col-span-7'
+                'group hover:scale-[1.02] hover:-translate-y-1 transition-all duration-300 cursor-pointer',
+                visibleProjects.has(project.id) ? 'animate-fade-up' : 'opacity-0'
               )}
+              style={{
+                animationDelay: visibleProjects.has(project.id) ? `${(index % 3) * 0.1}s` : undefined,
+                animationFillMode: 'forwards',
+              }}
             >
-              <div className="flex items-start justify-between gap-4 border-b border-white/10 pb-5">
-                <div>
-                  <span className="text-xs uppercase tracking-[0.18em] text-foreground/40">
-                    0{index + 1}
-                  </span>
-                  <h3 className="mt-3 font-heading text-2xl font-semibold tracking-[-0.05em] text-foreground sm:text-3xl">
-                    {project.title}
-                  </h3>
+              <CardHeader>
+                <div className="h-40 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-lg mb-4 flex items-center justify-center relative overflow-hidden">
+                  <span className="text-5xl" role="img" aria-label={project.title}>{project.emoji || '🚀'}</span>
                 </div>
-                <span className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-xs uppercase tracking-[0.16em] text-foreground/50">
-                  {project.size ?? 'featured'}
-                </span>
-              </div>
-
-              <p className="mt-6 flex-1 text-base leading-relaxed text-foreground/60">
-                {project.longDescription || project.description}
-              </p>
-
-              {project.metrics?.length ? (
-                <div className="mt-6 flex flex-wrap gap-3">
-                  {project.metrics.map((metric) => (
-                    <span key={`${project.id}-${metric.label}`} className="metric-chip text-sm text-foreground/60">
-                      <strong>{metric.value}</strong>
-                      {metric.label}
-                    </span>
-                  ))}
+                <CardTitle className="text-lg font-heading">{project.title}</CardTitle>
+                <CardDescription className="mt-2 text-sm line-clamp-3">
+                  {project.longDescription || project.description}
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="flex gap-2">
+                  {project.liveUrl && (
+                    <a
+                      href={project.liveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <Button size="sm" variant="outline">
+                        <ExternalLink className="h-4 w-4 mr-1" />
+                        {t.projects.liveDemo}
+                      </Button>
+                    </a>
+                  )}
+                  {project.githubUrl && (
+                    <a
+                      href={project.githubUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <Button size="sm" variant="outline">
+                        <Github className="h-4 w-4 mr-1" />
+                        GitHub
+                      </Button>
+                    </a>
+                  )}
                 </div>
-              ) : null}
-
-              <div className="mt-8 flex flex-wrap gap-3">
-                {project.liveUrl ? (
-                  <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-                    <Button size="sm" className="rounded-full px-5">
-                      <ExternalLink className="h-4 w-4" />
-                      {t.projects.liveDemo}
-                    </Button>
-                  </a>
-                ) : null}
-                {project.githubUrl ? (
-                  <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
-                    <Button size="sm" variant="outline" className="rounded-full px-5">
-                      <Github className="h-4 w-4" />
-                      GitHub
-                    </Button>
-                  </a>
-                ) : null}
-              </div>
-            </article>
+              </CardContent>
+            </Card>
           ))}
-        </div>
-
-        <div className="mt-10 flex justify-start">
-          <Link href={`/${locale}/projects`}>
-            <Button variant="ghost" size="lg" className="rounded-full px-0 text-foreground/70 hover:bg-transparent hover:text-foreground">
-              {t.projects.viewMore}
-            </Button>
-          </Link>
         </div>
       </div>
     </section>

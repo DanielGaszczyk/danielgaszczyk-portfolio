@@ -1,195 +1,195 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { motion, useScroll, useTransform } from 'framer-motion'
-import { ArrowDown, ArrowUpRight, Calendar, Code2 } from 'lucide-react'
+import { ArrowDown, Calendar, Code2, Sparkles } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
-import { ProjectShowcase } from '@/components/ui/ProjectShowcase'
 import { getTranslations, type Locale } from '@/lib/i18n'
-import { usePrefersReducedMotion } from '@/lib/hooks'
+import { FloatingParticles } from '@/components/effects/FloatingParticles'
+import { ProjectShowcase } from '@/components/ui/ProjectShowcase'
 
-const ease = [0.16, 1, 0.3, 1] as const
-
-const heroSignals = {
-  pl: ['AI dla MŚP', 'founder-to-founder', 'delivery bez teatru'],
-  en: ['AI for SMEs', 'founder-to-founder', 'delivery without theatre'],
-} satisfies Record<Locale, string[]>
-
-const proofChips = {
-  pl: [
-    { value: '8+', label: 'lat budowania produktów' },
-    { value: '20+', label: 'projektów i startupów' },
-    { value: '1M+', label: 'PLN pozyskanego finansowania' },
-  ],
-  en: [
-    { value: '8+', label: 'years building products' },
-    { value: '20+', label: 'projects and startups' },
-    { value: '1M+', label: 'PLN in secured funding' },
-  ],
-} satisfies Record<Locale, Array<{ value: string; label: string }>>
-
-const socialLinks = [
-  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/daniel-gaszczyk/' },
-  { label: 'GitHub', href: 'https://github.com/danielgaszczyk' },
-  { label: 'Substack', href: 'https://substack.com/@danielgaszczyk' },
-]
-
-function renderAccentText(text: string, keywords: string[]) {
-  return text.split(' ').map((word, index) => {
-    const shouldAccent = keywords.some((keyword) => word.toLowerCase().includes(keyword.toLowerCase()))
-    return (
-      <span key={`${word}-${index}`} className={shouldAccent ? 'text-primary' : undefined}>
-        {word}{' '}
-      </span>
-    )
-  })
-}
+const easeOutExpo = [0.16, 1, 0.3, 1] as const
 
 export function HeroSection({ locale }: { locale: Locale }) {
   const t = getTranslations(locale)
-  const prefersReducedMotion = usePrefersReducedMotion()
+  const [mounted, setMounted] = useState(false)
   const { scrollY } = useScroll()
-  const showcaseY = useTransform(scrollY, [0, 500], [0, prefersReducedMotion ? 0 : -48])
-  const arrowOpacity = useTransform(scrollY, [0, 220], [0.85, 0])
+  const y2 = useTransform(scrollY, [0, 500], [0, -150])
+  const opacity = useTransform(scrollY, [0, 300], [1, 0])
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  const renderShimmeredText = (text: string, shimmerWords: string[]) => {
+    return text.split(' ').map((word, i) => {
+      const shouldShimmer = shimmerWords.some(sw => word.toLowerCase().includes(sw.toLowerCase()))
+      return (
+        <span key={i} className={shouldShimmer ? 'gradient-text-shimmer' : 'gradient-text'}>
+          {word}{' '}
+        </span>
+      )
+    })
+  }
+
+  if (!mounted) return null
 
   return (
-    <section className="relative overflow-hidden">
-      <div className="container relative z-10 mx-auto px-4 pb-24 pt-8 sm:px-6 lg:px-8 lg:pb-32">
-        <div className="grid items-center gap-16 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)]">
-          <div className="max-w-3xl">
-            <motion.span
-              className="eyebrow mb-6"
-              initial={prefersReducedMotion ? false : { opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, ease }}
-            >
-              {t.hero.badge}
-            </motion.span>
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden perspective-2000">
+      <FloatingParticles />
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10">
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
 
+          {/* Text Content */}
+          <motion.div
+            className="flex-1 text-center lg:text-left"
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.7, ease: easeOutExpo }}
+          >
+            {/* Badge */}
             <motion.div
-              className="mb-8 flex flex-wrap gap-3"
-              initial={prefersReducedMotion ? false : { opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1, duration: 0.55, ease }}
+              className="mb-8 inline-flex items-center gap-2 px-6 py-2 rounded-full glass border-primary/30 bg-primary/10"
+              initial={{ y: -20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.1, ease: easeOutExpo }}
             >
-              {heroSignals[locale].map((signal) => (
-                <span key={signal} className="metric-chip text-sm text-foreground/70">
-                  {signal}
-                </span>
-              ))}
+              <Sparkles className="w-4 h-4 text-primary animate-pulse" />
+              <span className="text-sm font-medium tracking-[0.15em] uppercase text-white/90">{t.hero.badge}</span>
             </motion.div>
 
-            <motion.p
-              className="mb-4 text-sm font-medium uppercase tracking-[0.22em] text-foreground/50"
-              initial={prefersReducedMotion ? false : { opacity: 0, y: 18 }}
+            {/* H1 Greeting */}
+            <motion.h1
+              className="font-heading text-6xl sm:text-7xl md:text-8xl font-bold mb-6 leading-[0.95] tracking-tight text-balance"
+              initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.16, duration: 0.55, ease }}
+              transition={{ delay: 0.2, duration: 0.6, ease: easeOutExpo }}
             >
               {t.hero.greeting}
-            </motion.p>
-
-            <motion.h1
-              className="font-heading text-[clamp(3.4rem,10vw,7.4rem)] leading-[0.88] tracking-[-0.065em] text-balance"
-              initial={prefersReducedMotion ? false : { opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.22, duration: 0.72, ease }}
-            >
-              {renderAccentText(t.hero.subtitle, locale === 'pl' ? ['AI', 'biznesu'] : ['AI', 'business'])}
             </motion.h1>
 
-            <motion.p
-              className="mt-8 max-w-readable text-lg leading-relaxed text-foreground/70 sm:text-xl"
-              initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
+            <motion.h2
+              className="font-heading text-4xl sm:text-5xl md:text-6xl font-bold mb-8 leading-tight tracking-tight text-balance"
+              initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.34, duration: 0.64, ease }}
+              transition={{ delay: 0.3, duration: 0.6, ease: easeOutExpo }}
+            >
+              {renderShimmeredText(t.hero.subtitle, locale === 'pl' ? ['AI', 'biznesu'] : ['AI', 'business'])}
+            </motion.h2>
+
+            <motion.p
+              className="text-lg sm:text-xl text-foreground/80 mb-8 max-w-2xl mx-auto lg:mx-0 leading-relaxed"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4, duration: 0.6, ease: easeOutExpo }}
             >
               {t.hero.description}
             </motion.p>
 
+            {/* Social Media Links */}
             <motion.div
-              className="mt-8 flex flex-wrap gap-3"
-              initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
+              className="flex gap-6 mb-10 justify-center lg:justify-start"
+              initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.42, duration: 0.64, ease }}
+              transition={{ delay: 0.5, ease: easeOutExpo }}
             >
-              {proofChips[locale].map((chip) => (
-                <span key={chip.label} className="metric-chip text-sm text-foreground/70">
-                  <strong>{chip.value}</strong>
-                  {chip.label}
-                </span>
-              ))}
+              <a
+                href="https://www.linkedin.com/in/daniel-gaszczyk/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white/50 hover:text-white hover:scale-110 transition-all duration-200"
+                aria-label="LinkedIn"
+              >
+                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                </svg>
+              </a>
+              <a
+                href="https://substack.com/@danielgaszczyk"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white/50 hover:text-white hover:scale-110 transition-all duration-200"
+                aria-label="Substack"
+              >
+                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"/>
+                </svg>
+              </a>
             </motion.div>
 
+            {/* CTA Buttons */}
             <motion.div
-              className="mt-10 flex flex-col gap-4 sm:flex-row"
-              initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
+              className="flex flex-col sm:flex-row gap-5 justify-center lg:justify-start"
+              initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 0.64, ease }}
+              transition={{ delay: 0.6, ease: easeOutExpo }}
             >
               <Link href={`/${locale}/projects`}>
-                <Button size="xl" className="group min-w-[15rem] justify-between px-6">
-                  <span className="flex items-center gap-2">
-                    <Code2 className="h-5 w-5" />
+                <Button size="xl" className="group text-lg px-8 py-6 rounded-2xl relative overflow-hidden bg-white text-black hover:bg-white/95 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_50px_rgba(255,255,255,0.25),0_0_30px_rgba(99,102,241,0.2)] hover:scale-[1.02]">
+                  <span className="relative z-10 flex items-center">
+                    <Code2 className="mr-2 h-5 w-5 group-hover:rotate-12 transition-transform duration-300" />
                     {t.hero.cta.primary}
                   </span>
-                  <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-indigo-400 via-violet-400 to-indigo-400 opacity-0 group-hover:opacity-20 transition-all duration-500" />
                 </Button>
               </Link>
-
               <a
                 href="https://calendar.app.google/xKCsZqPvkMwTyV1x9"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <Button size="xl" variant="outline" className="min-w-[15rem] px-6">
-                  <Calendar className="h-5 w-5" />
-                  {t.hero.cta.secondary}
+                <Button size="xl" variant="outline" className="group text-lg px-8 py-6 rounded-2xl border-white/15 hover:bg-white/5 backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_15px_40px_rgba(139,92,246,0.3),0_0_30px_rgba(99,102,241,0.2)] hover:border-indigo-400/50 hover:scale-[1.02] relative overflow-hidden">
+                  <span className="relative z-10 flex items-center">
+                    <Calendar className="mr-2 h-5 w-5 group-hover:rotate-12 transition-transform duration-300" />
+                    {t.hero.cta.secondary}
+                  </span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/0 via-indigo-400/15 to-indigo-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 </Button>
               </a>
             </motion.div>
+          </motion.div>
 
-            <motion.div
-              className="mt-10 flex flex-wrap items-center gap-x-5 gap-y-3 text-sm text-foreground/50"
-              initial={prefersReducedMotion ? false : { opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.58, duration: 0.6, ease }}
-            >
-              <span className="text-xs uppercase tracking-[0.18em] text-foreground/40">
-                Signals
-              </span>
-              {socialLinks.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="link-fade inline-flex items-center gap-1"
-                >
-                  {link.label}
-                  <ArrowUpRight className="h-3.5 w-3.5" />
-                </a>
-              ))}
-            </motion.div>
-          </div>
-
+          {/* Project Showcase Bento Grid */}
           <motion.div
-            className="relative hidden lg:block"
-            style={{ y: showcaseY }}
-            initial={prefersReducedMotion ? false : { opacity: 0, scale: 0.96 }}
+            className="flex-1 relative hidden lg:block"
+            style={{ y: y2 }}
+            initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.28, duration: 0.8, ease }}
+            transition={{ duration: 0.8, delay: 0.3, ease: easeOutExpo }}
           >
-            <ProjectShowcase locale={locale} />
+            <ProjectShowcase />
           </motion.div>
         </div>
 
+        {/* Mobile Stats Bar */}
         <motion.div
-          className="pointer-events-none absolute bottom-6 left-1/2 hidden -translate-x-1/2 lg:block"
-          style={{ opacity: arrowOpacity }}
-          animate={prefersReducedMotion ? undefined : { y: [0, 8, 0] }}
-          transition={{ duration: 2.6, repeat: Infinity, ease: 'easeInOut' }}
+          className="flex lg:hidden justify-center mt-10"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.7, ease: easeOutExpo }}
         >
-          <ArrowDown className="h-6 w-6 text-foreground/30" />
+          <div className="inline-flex items-center gap-3 sm:gap-5 px-6 py-3 rounded-full glass text-sm">
+            <span className="text-white/90 font-medium">
+              {locale === 'pl' ? '8+ lat' : '8+ yrs'}
+            </span>
+            <span className="text-white/30">·</span>
+            <span className="text-white/90 font-medium">
+              {locale === 'pl' ? '20+ projektów' : '20+ projects'}
+            </span>
+            <span className="text-white/30">·</span>
+            <span className="text-white/90 font-medium">1M+ PLN</span>
+          </div>
+        </motion.div>
+
+        {/* Scroll indicator */}
+        <motion.div
+          className="absolute bottom-10 left-1/2 -translate-x-1/2"
+          style={{ opacity }}
+          animate={{ y: [0, 8, 0] }}
+          transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <ArrowDown className="h-7 w-7 text-muted-foreground/40" />
         </motion.div>
       </div>
     </section>

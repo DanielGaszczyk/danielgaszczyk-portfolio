@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { BookOpen, Github, Linkedin, Mail, Twitter } from 'lucide-react'
+import { Github, Linkedin, Twitter, Mail, BookOpen } from 'lucide-react'
 import { getTranslations, type Locale } from '@/lib/i18n'
 
 export function Footer({ locale }: { locale: Locale }) {
@@ -37,48 +37,53 @@ export function Footer({ locale }: { locale: Locale }) {
   const navLinks = [
     { label: t.nav.projects, href: `/${locale}/projects` },
     { label: t.nav.blog, href: `/${locale}/blog` },
-    { label: t.nav.about, href: `/${locale}/about` },
+    { label: t.nav.about, href: `/${locale}#about` },
     { label: t.nav.contact, href: `/${locale}/contact` },
   ]
 
   return (
-    <footer className="relative z-10 mt-10 border-t border-white/10">
-      <div className="container mx-auto px-4 py-12 sm:px-6 lg:px-8 lg:py-14">
-        <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_auto_auto] lg:items-start">
-          <div>
-            <span className="eyebrow mb-4">Daniel Gaszczyk</span>
-            <p className="max-w-[34rem] text-base leading-relaxed text-foreground/60">
-              {t.footer.tagline}
-            </p>
+    <footer className="relative z-10 border-t border-white/10 glass mt-32">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 lg:gap-8">
+          {/* Brand */}
+          <div className="text-center lg:text-left">
+            <span className="font-heading text-xl font-bold gradient-text">Daniel Gaszczyk</span>
+            <p className="text-sm text-muted-foreground mt-2">{t.footer.tagline}</p>
           </div>
 
-          <div className="flex flex-wrap gap-x-5 gap-y-3 lg:justify-center">
+          {/* Nav links */}
+          <div className="flex justify-center gap-6">
             {navLinks.map((link) => (
-              <Link key={link.href} href={link.href} className="link-fade text-sm text-foreground/50">
+              <Link
+                key={link.href}
+                href={link.href}
+                className="text-sm text-muted-foreground hover:text-white transition-colors"
+              >
                 {link.label}
               </Link>
             ))}
           </div>
 
-          <div className="flex flex-wrap gap-2 lg:justify-end">
-            {socialLinks.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="link-fade inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-2 text-sm text-foreground/50"
-                aria-label={link.name}
-              >
-                <link.icon className="h-4 w-4" />
-                {link.name}
-              </a>
-            ))}
+          {/* Social + copyright */}
+          <div className="flex flex-col items-center lg:items-end gap-4">
+            <div className="flex space-x-4">
+              {socialLinks.map((link) => (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-muted-foreground hover:text-white transition-colors p-2 hover:bg-white/10 rounded-full"
+                  aria-label={link.name}
+                >
+                  <link.icon className="h-4 w-4" />
+                </a>
+              ))}
+            </div>
+            <p className="text-xs text-muted-foreground">
+              © {currentYear} Daniel Gaszczyk. {t.footer.rights}.
+            </p>
           </div>
-        </div>
-
-        <div className="mt-8 border-t border-white/10 pt-6 text-sm text-foreground/40">
-          © {currentYear} Daniel Gaszczyk. {t.footer.rights}.
         </div>
       </div>
     </footer>

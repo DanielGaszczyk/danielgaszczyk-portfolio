@@ -3,76 +3,35 @@
 import { motion } from 'framer-motion'
 import { useIsMobile, usePrefersReducedMotion } from '@/lib/hooks'
 
+const ease = [0.22, 1, 0.36, 1] as const
+
 export function OptimizedLiquidBackground() {
   const isMobile = useIsMobile()
   const prefersReducedMotion = usePrefersReducedMotion()
 
-  const blurClass = isMobile ? 'blur-2xl' : 'blur-3xl'
-  const blobs = isMobile ? [0, 1] : [0, 1, 2]
+  const blurClass = isMobile ? 'blur-[90px]' : 'blur-[140px]'
 
   return (
-    <div className="fixed inset-0 overflow-hidden pointer-events-none -z-10">
-      {blobs.includes(0) && (
-        <motion.div
-          className={`absolute -top-20 -left-20 w-[600px] h-[600px] rounded-full opacity-25 ${blurClass}`}
-          style={{
-            background: 'radial-gradient(circle, rgba(99, 102, 241, 0.35) 0%, rgba(139, 92, 246, 0.25) 50%, transparent 70%)',
-            willChange: 'transform',
-          }}
-          animate={!prefersReducedMotion ? {
-            x: [0, 80, -40, 0],
-            y: [0, -80, 40, 0],
-            scale: [1, 1.15, 0.95, 1],
-          } : {}}
-          transition={{
-            duration: 35,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        />
-      )}
-
-      {blobs.includes(1) && (
-        <motion.div
-          className={`absolute top-1/4 -right-40 w-[650px] h-[650px] rounded-full opacity-20 ${blurClass}`}
-          style={{
-            background: 'radial-gradient(circle, rgba(192, 132, 252, 0.35) 0%, rgba(99, 102, 241, 0.25) 50%, transparent 70%)',
-            willChange: 'transform',
-          }}
-          animate={!prefersReducedMotion ? {
-            x: [0, -60, 80, 0],
-            y: [0, 80, -60, 0],
-            scale: [1, 0.92, 1.08, 1],
-          } : {}}
-          transition={{
-            duration: 40,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        />
-      )}
-
-      {blobs.includes(2) && (
-        <motion.div
-          className={`absolute bottom-20 left-1/4 w-[500px] h-[500px] rounded-full opacity-20 ${blurClass}`}
-          style={{
-            background: 'radial-gradient(circle, rgba(139, 92, 246, 0.3) 0%, rgba(192, 132, 252, 0.2) 50%, transparent 70%)',
-            willChange: 'transform',
-          }}
-          animate={!prefersReducedMotion ? {
-            x: [0, -50, 60, 0],
-            y: [0, 60, -50, 0],
-            scale: [1, 1.08, 0.95, 1],
-          } : {}}
-          transition={{
-            duration: 32,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        />
-      )}
-
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/50 to-background pointer-events-none" />
+    <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+      <motion.div
+        className={`absolute -left-24 top-[-8rem] h-[28rem] w-[28rem] rounded-full ${blurClass}`}
+        style={{ background: 'rgba(72, 181, 177, 0.16)' }}
+        animate={prefersReducedMotion ? undefined : { x: [0, 40, -20, 0], y: [0, -30, 20, 0], scale: [1, 1.08, 0.96, 1] }}
+        transition={{ duration: 28, repeat: Infinity, ease }}
+      />
+      <motion.div
+        className={`absolute right-[-10rem] top-[10%] h-[24rem] w-[24rem] rounded-full ${blurClass}`}
+        style={{ background: 'rgba(190, 167, 109, 0.11)' }}
+        animate={prefersReducedMotion ? undefined : { x: [0, -35, 25, 0], y: [0, 30, -20, 0], scale: [1, 0.94, 1.05, 1] }}
+        transition={{ duration: 30, repeat: Infinity, ease }}
+      />
+      <motion.div
+        className={`absolute bottom-[-8rem] left-1/3 h-[26rem] w-[26rem] rounded-full ${blurClass}`}
+        style={{ background: 'rgba(88, 114, 170, 0.12)' }}
+        animate={prefersReducedMotion ? undefined : { x: [0, -20, 30, 0], y: [0, 24, -18, 0], scale: [1, 1.04, 0.98, 1] }}
+        transition={{ duration: 34, repeat: Infinity, ease }}
+      />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,transparent,rgba(7,12,22,0.34)_68%,rgba(7,12,22,0.74))]" />
     </div>
   )
 }

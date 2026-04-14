@@ -1,23 +1,17 @@
-import { Inter, JetBrains_Mono, Space_Grotesk } from 'next/font/google'
+import { Manrope, Schibsted_Grotesk } from 'next/font/google'
 import './globals.css'
 
-const inter = Inter({
+const manrope = Manrope({
   subsets: ['latin', 'latin-ext'],
-  variable: '--font-inter',
+  variable: '--font-manrope',
   display: 'swap',
 })
 
-const spaceGrotesk = Space_Grotesk({
+const schibstedGrotesk = Schibsted_Grotesk({
   subsets: ['latin', 'latin-ext'],
-  variable: '--font-space-grotesk',
+  variable: '--font-schibsted-grotesk',
   display: 'swap',
-  weight: ['400', '500', '600', '700'],
-})
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ['latin', 'latin-ext'],
-  variable: '--font-jetbrains-mono',
-  display: 'swap',
+  weight: ['500', '600', '700', '800'],
 })
 
 export default function RootLayout({
@@ -27,7 +21,7 @@ export default function RootLayout({
 }) {
   return (
     <html suppressHydrationWarning>
-      <body className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} font-sans antialiased`}>
+      <body className={`${manrope.variable} ${schibstedGrotesk.variable} font-sans antialiased`}>
         {children}
       </body>
     </html>

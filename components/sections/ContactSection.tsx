@@ -1,82 +1,81 @@
-'use client'
-
-import { motion } from 'framer-motion'
-import { Mail, MapPin, Calendar } from 'lucide-react'
+import { Calendar, Mail, MapPin } from 'lucide-react'
+import { Button } from '@/components/ui/Button'
 import { getTranslations, type Locale } from '@/lib/i18n'
-import { GlassCard } from '@/components/ui/GlassCard'
-
-const easeOutExpo = [0.16, 1, 0.3, 1] as const
 
 export function ContactSection({ locale }: { locale: Locale }) {
   const t = getTranslations(locale)
 
-  const contactInfo = {
+  const sideCards = {
     pl: [
-      { icon: Mail, label: 'Email', value: 'hello@danielgaszczyk.com', link: 'mailto:hello@danielgaszczyk.com' },
-      { icon: MapPin, label: 'Lokalizacja', value: 'Polska' },
-      { icon: Calendar, label: 'Kalendarz', value: 'Umów spotkanie', link: 'https://calendar.app.google/xKCsZqPvkMwTyV1x9' },
+      { icon: Mail, label: 'Email', value: 'hello@danielgaszczyk.com', href: 'mailto:hello@danielgaszczyk.com' },
+      { icon: Calendar, label: 'Pierwszy krok', value: '30 minut rozmowy', href: 'https://calendar.app.google/xKCsZqPvkMwTyV1x9' },
+      { icon: MapPin, label: 'Lokalizacja', value: 'Polska / remote-first' },
     ],
     en: [
-      { icon: Mail, label: 'Email', value: 'hello@danielgaszczyk.com', link: 'mailto:hello@danielgaszczyk.com' },
-      { icon: MapPin, label: 'Location', value: 'Poland' },
-      { icon: Calendar, label: 'Calendar', value: 'Schedule meeting', link: 'https://calendar.app.google/xKCsZqPvkMwTyV1x9' },
+      { icon: Mail, label: 'Email', value: 'hello@danielgaszczyk.com', href: 'mailto:hello@danielgaszczyk.com' },
+      { icon: Calendar, label: 'First step', value: '30-minute intro call', href: 'https://calendar.app.google/xKCsZqPvkMwTyV1x9' },
+      { icon: MapPin, label: 'Location', value: 'Poland / remote-first' },
     ],
   }
 
   return (
-    <section id="contact" className="py-24 lg:py-32 relative z-10">
+    <section id="contact" className="relative z-10 py-24 lg:py-32">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <motion.div
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-20%" }}
-          transition={{ duration: 0.5, ease: easeOutExpo }}
-        >
-          <h2 className="font-heading text-4xl sm:text-5xl font-bold mb-6 tracking-tight text-balance">{t.contact.title}</h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            {t.contact.subtitle}
-          </p>
-        </motion.div>
+        <div className="grid gap-6 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
+          <article className="surface-panel-strong p-8 sm:p-10 lg:p-12">
+            <span className="eyebrow mb-5">Start here</span>
+            <h2 className="font-heading text-4xl font-semibold tracking-[-0.06em] text-balance sm:text-5xl lg:text-6xl">
+              {t.contact.title}
+            </h2>
+            <p className="mt-6 max-w-readable text-lg leading-relaxed text-foreground/60">
+              {t.contact.subtitle}
+            </p>
+            <div className="mt-8 flex flex-col gap-4 sm:flex-row">
+              <a
+                href="https://calendar.app.google/xKCsZqPvkMwTyV1x9"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Button size="xl" className="min-w-[15rem] px-6">
+                  <Calendar className="h-5 w-5" />
+                  {t.hero.cta.secondary}
+                </Button>
+              </a>
+              <a href="mailto:hello@danielgaszczyk.com">
+                <Button size="xl" variant="outline" className="min-w-[15rem] px-6">
+                  <Mail className="h-5 w-5" />
+                  hello@danielgaszczyk.com
+                </Button>
+              </a>
+            </div>
+          </article>
 
-        {/* Contact Cards */}
-        <div className="max-w-5xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {contactInfo[locale].map((item, index) => {
+          <div className="grid gap-4">
+            {sideCards[locale].map((item) => {
               const Icon = item.icon
-              const CardContent = (
-                <GlassCard className="text-center h-full flex flex-col items-center justify-center p-8 min-h-[200px]" hoverEffect={false}>
-                  <div className="w-16 h-16 min-w-16 shrink-0 rounded-full bg-white/5 mb-4 flex items-center justify-center mx-auto">
-                    <Icon className="h-8 w-8 text-primary shrink-0 mx-auto" />
+              const content = (
+                <article className="surface-panel surface-hover flex h-full items-start gap-4 p-6">
+                  <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-3">
+                    <Icon className="h-5 w-5 text-primary" />
                   </div>
-                  <div className="text-sm text-foreground/70 font-medium mb-2">{item.label}</div>
-                  <div className="text-lg font-semibold px-4">{item.value}</div>
-                </GlassCard>
+                  <div>
+                    <div className="text-xs uppercase tracking-[0.18em] text-foreground/40">{item.label}</div>
+                    <div className="mt-3 text-base font-semibold tracking-[-0.02em] text-foreground">{item.value}</div>
+                  </div>
+                </article>
               )
 
-              return (
-                <motion.div
+              return item.href ? (
+                <a
                   key={item.label}
-                  initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-20%" }}
-                  transition={{ delay: index * 0.08, duration: 0.5, ease: easeOutExpo }}
-                  className="h-full"
+                  href={item.href}
+                  target={item.href.startsWith('http') ? '_blank' : undefined}
+                  rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
                 >
-                  {item.link ? (
-                    <a
-                      href={item.link}
-                      target={item.link.startsWith('http') ? '_blank' : undefined}
-                      rel={item.link.startsWith('http') ? 'noopener noreferrer' : undefined}
-                      className="block h-full hover:scale-[1.02] hover:-translate-y-1 transition-all duration-300"
-                    >
-                      {CardContent}
-                    </a>
-                  ) : (
-                    CardContent
-                  )}
-                </motion.div>
+                  {content}
+                </a>
+              ) : (
+                <div key={item.label}>{content}</div>
               )
             })}
           </div>

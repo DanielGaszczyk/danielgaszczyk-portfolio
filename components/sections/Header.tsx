@@ -1,10 +1,9 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, Globe } from 'lucide-react'
+import { Calendar, Globe, Menu, X } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import { getTranslations, type Locale } from '@/lib/i18n'
 import { cn } from '@/lib/utils'
@@ -16,20 +15,18 @@ export function Header({ locale }: { locale: Locale }) {
   const t = getTranslations(locale)
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10)
-    }
+    const handleScroll = () => setIsScrolled(window.scrollY > 18)
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // Get the language switch URL by replacing the current locale in the pathname
   const getLanguageSwitchUrl = () => {
     const newLocale = locale === 'pl' ? 'en' : 'pl'
-    // Replace the locale segment in the pathname
     const pathWithoutLocale = pathname.replace(`/${locale}`, '') || '/'
     return `/${newLocale}${pathWithoutLocale === '/' ? '' : pathWithoutLocale}`
   }
+
+  const descriptor = locale === 'pl' ? 'AI founder · product operator' : 'AI founder · product operator'
 
   const navigation = [
     { name: t.nav.home, href: `/${locale}` },
@@ -40,92 +37,89 @@ export function Header({ locale }: { locale: Locale }) {
   ]
 
   return (
-    <motion.header
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.5 }}
-      className={cn(
-        'fixed top-0 z-50 w-full transition-all duration-300',
-        isScrolled
-          ? 'glass border-b border-white/10'
-          : 'bg-transparent'
-      )}
-    >
-      <nav className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex h-20 items-center justify-between">
-          <div className="flex items-center">
-            <Link
-              href={`/${locale}`}
-              className="text-2xl font-heading font-bold tracking-tight hover:opacity-80 transition-opacity"
-            >
-              Daniel<span className="text-primary">.</span>
-            </Link>
-          </div>
+    <header className="fixed inset-x-0 top-0 z-50 px-4 pt-4">
+      <div
+        className={cn(
+          'container mx-auto rounded-[1.6rem] border px-5 py-3 backdrop-blur-xl transition-all duration-300',
+          isScrolled
+            ? 'border-white/10 bg-background/80 shadow-[0_24px_60px_rgba(3,8,20,0.32)]'
+            : 'border-white/10 bg-background/60'
+        )}
+      >
+        <div className="flex items-center justify-between gap-4">
+          <Link href={`/${locale}`} className="min-w-0">
+            <span className="block font-heading text-xl font-semibold tracking-[-0.05em] text-foreground">
+              Daniel Gaszczyk
+            </span>
+            <span className="block truncate text-xs uppercase tracking-[0.18em] text-foreground/50">
+              {descriptor}
+            </span>
+          </Link>
 
-          <div className="hidden md:flex items-center space-x-1">
-            {navigation.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className={cn(
-                  'text-sm font-medium transition-colors px-4 py-2 rounded-full hover:bg-white/5',
-                  pathname === item.href
-                    ? 'text-primary bg-white/10'
-                    : 'text-muted-foreground'
-                )}
-              >
-                {item.name}
-              </Link>
-            ))}
-          </div>
+          <nav className="hidden items-center gap-1 lg:flex">
+            {navigation.map((item) => {
+              const isActive = pathname === item.href
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={cn(
+                    'rounded-full px-4 py-2 text-sm font-medium transition-all duration-300',
+                    isActive
+                      ? 'bg-white/[0.06] text-foreground'
+                      : 'text-foreground/60 hover:bg-white/[0.04] hover:text-foreground'
+                  )}
+                >
+                  {item.name}
+                </Link>
+              )
+            })}
+          </nav>
 
-          <div className="flex items-center space-x-2">
-            <Link
-              href={getLanguageSwitchUrl()}
-              className="hidden sm:block"
-            >
-              <Button variant="ghost" size="sm" className="hover:bg-white/10 rounded-full">
-                <Globe className="h-4 w-4 mr-2" />
+          <div className="flex items-center gap-2">
+            <Link href={getLanguageSwitchUrl()} className="hidden sm:block">
+              <Button variant="ghost" size="sm" className="rounded-full px-4 text-foreground/70 hover:text-foreground">
+                <Globe className="h-4 w-4" />
                 {locale === 'pl' ? 'EN' : 'PL'}
               </Button>
             </Link>
 
+            <a
+              href="https://calendar.app.google/xKCsZqPvkMwTyV1x9"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden lg:block"
+            >
+              <Button size="sm" className="rounded-full px-5">
+                <Calendar className="h-4 w-4" />
+                {t.hero.cta.secondary}
+              </Button>
+            </a>
+
             <Button
               variant="ghost"
               size="sm"
-              className="md:hidden hover:bg-white/10 rounded-full"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="rounded-full lg:hidden"
+              onClick={() => setIsMobileMenuOpen((open) => !open)}
               aria-label="Toggle menu"
             >
-              {isMobileMenuOpen ? (
-                <X className="h-5 w-5" />
-              ) : (
-                <Menu className="h-5 w-5" />
-              )}
+              {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </Button>
           </div>
         </div>
-      </nav>
 
-      {/* Mobile menu */}
-      <AnimatePresence>
         {isMobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden overflow-hidden glass border-b border-white/10"
-          >
-            <div className="px-4 py-4 space-y-1">
+          <div className="mt-4 rounded-[1.35rem] border border-white/10 bg-white/[0.03] p-3 lg:hidden">
+            <div className="grid gap-1">
               {navigation.map((item) => (
                 <Link
-                  key={item.name}
+                  key={item.href}
                   href={item.href}
                   className={cn(
-                    'block px-3 py-2 rounded-md text-base font-medium transition-colors',
+                    'rounded-2xl px-4 py-3 text-sm font-medium transition-colors',
                     pathname === item.href
-                      ? 'text-primary bg-white/10'
-                      : 'text-muted-foreground hover:text-primary hover:bg-white/5'
+                      ? 'bg-white/[0.06] text-foreground'
+                      : 'text-foreground/60 hover:bg-white/[0.04] hover:text-foreground'
                   )}
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
@@ -134,16 +128,24 @@ export function Header({ locale }: { locale: Locale }) {
               ))}
               <Link
                 href={getLanguageSwitchUrl()}
-                className="block px-3 py-2 rounded-md text-base font-medium text-muted-foreground hover:text-primary hover:bg-white/5"
+                className="rounded-2xl px-4 py-3 text-sm font-medium text-foreground/60 hover:bg-white/[0.04] hover:text-foreground"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                <Globe className="h-4 w-4 inline mr-2" />
-                {locale === 'pl' ? 'English' : 'Polski'}
+                {locale === 'pl' ? 'Switch to English' : 'Przełącz na polski'}
               </Link>
+              <a
+                href="https://calendar.app.google/xKCsZqPvkMwTyV1x9"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-2xl px-4 py-3 text-sm font-medium text-foreground/60 hover:bg-white/[0.04] hover:text-foreground"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                {t.hero.cta.secondary}
+              </a>
             </div>
-          </motion.div>
+          </div>
         )}
-      </AnimatePresence>
-    </motion.header>
+      </div>
+    </header>
   )
 }

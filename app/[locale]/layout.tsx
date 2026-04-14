@@ -12,10 +12,11 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ locale: Locale }>
+  params: Promise<{ locale: string }>
 }): Promise<Metadata> {
-  const { locale } = await params
-  
+  const { locale: localeStr } = await params
+  const locale = localeStr as Locale
+
   const metadata = {
     pl: {
       title: 'Daniel Gaszczyk - AI × Biznes × Technologia | TeamFeedback CTO',
@@ -105,10 +106,11 @@ export default async function LocaleLayout({
   params,
 }: {
   children: React.ReactNode
-  params: Promise<{ locale: Locale }>
+  params: Promise<{ locale: string }>
 }) {
-  const { locale } = await params
-  if (!locales.includes(locale)) notFound()
+  const { locale: localeStr } = await params
+  if (!locales.includes(localeStr as Locale)) notFound()
+  const locale = localeStr as Locale
 
   const projects = getAllProjects(locale)
   

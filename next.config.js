@@ -1,11 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
-  // Removed basePath and assetPrefix - using custom domain at root (danielgaszczyk.com)
+  output: 'standalone',
   images: {
     unoptimized: true,
   },
-  trailingSlash: true,
   reactStrictMode: true,
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',

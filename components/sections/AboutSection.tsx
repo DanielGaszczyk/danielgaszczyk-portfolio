@@ -1,101 +1,97 @@
-import { Award, Briefcase, GraduationCap, Heart } from 'lucide-react'
+'use client'
+
+import { motion } from 'framer-motion'
+import { Award, Briefcase } from 'lucide-react'
 import { type Locale } from '@/lib/i18n'
 import { GlassCard } from '@/components/ui/GlassCard'
 
-const content = {
-  pl: {
-    title: 'O mnie',
-    subtitle: 'Łączę perspektywę founder-tech z realnym dowożeniem produktów i wdrożeń AI.',
-    bio: [
-      'Jestem przedsiębiorcą i konsultantem AI z ponad 8-letnim doświadczeniem. Współtworzyłem kilka startupów, w tym TeamFeedback, który pozyskał ponad milion złotych finansowania z funduszy UE. Najlepiej czuję się na styku strategii, produktu i technologii.',
-      'Pracuję z firmami, które potrzebują nie tylko pomysłu, ale też kogoś, kto potrafi przełożyć go na sensowny plan, szybki prototyp i działające wdrożenie. Interesują mnie projekty, w których AI ma poprawić wynik biznesowy, a nie tylko wyglądać dobrze na slajdzie.',
-    ],
-    principles: [
-      'Szybko porządkuję chaos i zamieniam go w klarowny plan produktu.',
-      'Lubię małe zespoły, wysoki ownership i decyzje oparte na sygnałach, nie na modzie.',
-      'Buduję doświadczenia, które są zarówno pragmatyczne, jak i estetycznie dopracowane.',
-    ],
-    stats: [
-      { icon: Briefcase, label: 'Lat doświadczenia', value: '8+' },
-      { icon: Award, label: 'Projektów', value: '20+' },
-      { icon: GraduationCap, label: 'Certyfikaty', value: '12' },
-      { icon: Heart, label: 'Zaufali mi klienci', value: '50+' },
-    ],
-  },
-  en: {
-    title: 'About Me',
-    subtitle: 'I combine founder-tech perspective with actual product delivery and AI implementation work.',
-    bio: [
-      "I'm an entrepreneur and AI consultant with over 8 years of experience. I co-founded several startups, including TeamFeedback, which secured over 1 million PLN in EU funding. I operate best at the intersection of strategy, product, and technology.",
-      'I work with teams that need more than an idea. They need someone who can turn it into a clear product plan, a fast prototype, and a working implementation. I care about AI that improves business outcomes, not AI that only looks impressive on a slide.',
-    ],
-    principles: [
-      'I turn messy opportunity spaces into a clear product direction quickly.',
-      'I prefer small teams, high ownership, and decisions based on signal rather than hype.',
-      'I build experiences that are both pragmatic and aesthetically deliberate.',
-    ],
-    stats: [
-      { icon: Briefcase, label: 'Years of experience', value: '8+' },
-      { icon: Award, label: 'Projects', value: '20+' },
-      { icon: GraduationCap, label: 'Certifications', value: '12' },
-      { icon: Heart, label: 'Trusted clients', value: '50+' },
-    ],
-  },
-} satisfies Record<Locale, {
-  title: string
-  subtitle: string
-  bio: string[]
-  principles: string[]
-  stats: Array<{ icon: typeof Briefcase; label: string; value: string }>
-}>
+const easeOutExpo = [0.16, 1, 0.3, 1] as const
 
 export function AboutSection({ locale }: { locale: Locale }) {
+
+  const content = {
+    pl: {
+      title: 'O mnie',
+      subtitle: 'Przedsiębiorca technologiczny i konsultant AI',
+      bio: [
+        'Jestem przedsiębiorcą i konsultantem AI z ponad 8-letnim doświadczeniem. Współtworzyłem kilka startupów, w tym TeamFeedback, który pozyskał ponad milion złotych finansowania z funduszy UE. Specjalizuję się w budowaniu produktów na styku sztucznej inteligencji i biznesu.',
+        'Zaczynałem od hackathonów, dziś pomagam firmom wdrażać praktyczne rozwiązania AI. Każdy projekt traktuję jako szansę na rozwiązanie realnego problemu - nie budowanie technologii dla samej technologii.',
+      ],
+      stats: [
+        { icon: Briefcase, label: 'Lat doświadczenia', value: '8+' },
+        { icon: Award, label: 'Ukończonych projektów', value: '20+' },
+      ],
+    },
+    en: {
+      title: 'About Me',
+      subtitle: 'Tech entrepreneur and AI consultant',
+      bio: [
+        "I'm an entrepreneur and AI consultant with over 8 years of experience. I co-founded several startups, including TeamFeedback, which secured over 1 million PLN in EU funding. I specialize in building products at the intersection of artificial intelligence and business.",
+        'I started at hackathons, today I help companies implement practical AI solutions. I treat every project as a chance to solve a real problem - not building technology for technology\'s sake.',
+      ],
+      stats: [
+        { icon: Briefcase, label: 'Years of experience', value: '8+' },
+        { icon: Award, label: 'Completed projects', value: '20+' },
+      ],
+    },
+  }
+
   const data = content[locale]
 
   return (
-    <section id="about" className="relative z-10 py-24 lg:py-32">
+    <section id="about" className="py-24 lg:py-32 relative z-10">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid gap-8 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)]">
-          <div>
-            <span className="eyebrow mb-5">Profile</span>
-            <h2 className="font-heading text-4xl font-semibold tracking-[-0.06em] text-balance sm:text-5xl lg:text-6xl">
-              {data.title}
-            </h2>
-            <p className="mt-5 max-w-readable text-lg leading-relaxed text-foreground/60">{data.subtitle}</p>
+        <div className="max-w-6xl mx-auto">
+          <motion.div
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-20%" }}
+            transition={{ duration: 0.5, ease: easeOutExpo }}
+          >
+            <h2 className="font-heading text-4xl sm:text-5xl font-bold mb-6 tracking-tight gradient-text text-balance">{data.title}</h2>
+            <p className="text-lg text-foreground/80">{data.subtitle}</p>
+          </motion.div>
 
-            <div className="mt-8 space-y-5 text-base leading-relaxed text-foreground/70 sm:text-lg">
-              {data.bio.map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+            <div className="space-y-6">
+              {data.bio.map((paragraph, index) => (
+                <motion.p
+                  key={index}
+                  className="text-lg text-foreground/85 leading-relaxed"
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-20%" }}
+                  transition={{ delay: index * 0.1, duration: 0.5, ease: easeOutExpo }}
+                >
+                  {paragraph}
+                </motion.p>
               ))}
             </div>
 
-            <div className="mt-10 grid gap-4">
-              {data.principles.map((principle) => (
-                <div key={principle} className="surface-panel px-5 py-4 text-sm leading-relaxed text-foreground/60 sm:text-base">
-                  {principle}
-                </div>
-              ))}
+            <div className="grid grid-cols-2 gap-6">
+              {data.stats.map((stat, index) => {
+                const Icon = stat.icon
+                return (
+                  <motion.div
+                    key={stat.label}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true, margin: "-50px" }}
+                    transition={{ delay: index * 0.05, duration: 0.4, ease: easeOutExpo }}
+                    className="h-full"
+                  >
+                    <GlassCard className="text-center h-full flex flex-col items-center justify-center p-6 min-h-[180px]" hoverEffect={false}>
+                      <div className="w-14 h-14 min-w-14 shrink-0 rounded-full bg-white/5 mb-4 flex items-center justify-center mx-auto">
+                        <Icon className="h-7 w-7 text-primary shrink-0 mx-auto" />
+                      </div>
+                      <div className="text-3xl font-heading font-bold mb-2 gradient-text">{stat.value}</div>
+                      <div className="text-sm text-foreground/70 font-medium leading-tight px-2">{stat.label}</div>
+                    </GlassCard>
+                  </motion.div>
+                )
+              })}
             </div>
-          </div>
-
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:pt-12">
-            {data.stats.map((stat) => {
-              const Icon = stat.icon
-              return (
-                <GlassCard key={stat.label} className="h-full p-6 sm:p-7">
-                  <div className="flex items-center justify-between">
-                    <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-3">
-                      <Icon className="h-5 w-5 text-primary" />
-                    </div>
-                    <span className="text-xs uppercase tracking-[0.18em] text-foreground/40">Signal</span>
-                  </div>
-                  <div className="mt-8 font-heading text-4xl font-semibold tracking-[-0.06em] text-foreground">
-                    {stat.value}
-                  </div>
-                  <p className="mt-2 text-sm leading-relaxed text-foreground/60">{stat.label}</p>
-                </GlassCard>
-              )
-            })}
           </div>
         </div>
       </div>

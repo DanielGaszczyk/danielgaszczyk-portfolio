@@ -1,17 +1,17 @@
-import { Manrope, Schibsted_Grotesk } from 'next/font/google'
+import { Inter, Space_Grotesk } from 'next/font/google'
 import './globals.css'
 
-const manrope = Manrope({
+const inter = Inter({
   subsets: ['latin', 'latin-ext'],
-  variable: '--font-manrope',
+  variable: '--font-inter',
   display: 'swap',
 })
 
-const schibstedGrotesk = Schibsted_Grotesk({
+const spaceGrotesk = Space_Grotesk({
   subsets: ['latin', 'latin-ext'],
-  variable: '--font-schibsted-grotesk',
+  variable: '--font-space-grotesk',
   display: 'swap',
-  weight: ['500', '600', '700', '800'],
+  weight: ['400', '500', '600', '700'],
 })
 
 export default function RootLayout({
@@ -21,7 +21,7 @@ export default function RootLayout({
 }) {
   return (
     <html suppressHydrationWarning>
-      <body className={`${manrope.variable} ${schibstedGrotesk.variable} font-sans antialiased`}>
+      <body className={`${inter.variable} ${spaceGrotesk.variable} font-sans antialiased`}>
         {children}
       </body>
     </html>

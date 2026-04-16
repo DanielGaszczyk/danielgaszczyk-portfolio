@@ -53,9 +53,7 @@ export function Header({ locale }: { locale: Locale }) {
       transition={{ duration: 0.5 }}
       className={cn(
         'fixed top-0 z-50 w-full transition-all duration-300',
-        isScrolled
-          ? 'glass border-b border-white/10 md:-translate-y-full md:opacity-0 md:pointer-events-none'
-          : 'bg-transparent'
+        isScrolled ? 'glass border-b border-white/10' : 'bg-transparent'
       )}
     >
       <nav className="container mx-auto px-4 sm:px-6 lg:px-8">

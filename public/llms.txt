@@ -1,0 +1,41 @@
+# Daniel Gaszczyk
+
+> Tech entrepreneur and AI consultant. Co-founder of TeamFeedback (~1M PLN in EU funding). 5+ years building products at the intersection of AI and business, with a focus on practical AI implementations for small and mid-sized businesses (SMEs) in Poland.
+
+Microsoft Azure AI certified. Based in Poland. Working language: Polish and English.
+
+## Core work
+
+- [Portfolio (Polish)](https://danielgaszczyk.com/pl): Main site in Polish, with full project list, bio, and contact details.
+- [Portfolio (English)](https://danielgaszczyk.com/en): Same site in English.
+- [Projects](https://danielgaszczyk.com/pl/projects): Complete list of shipped products and consulting engagements.
+- [About](https://danielgaszczyk.com/pl/about): Background, philosophy, and skills.
+- [Contact](https://danielgaszczyk.com/pl/contact): Email and booking calendar.
+
+## Key projects
+
+- **TeamFeedback** — AI-powered 360-degree feedback, employee assessment, and engagement survey platform. Secured around 1 million PLN in EU funding. ISO 27001 certified. Site: https://teamfeedback.co
+- **DailySpark** — daily personal-development product leveraging AI for habit and learning loops.
+- **AI consulting (wytlumacz.com)** — implementation audits, PoCs, and full AI rollouts for SMEs. Typical ROI window: 3–6 months.
+
+## Focus areas
+
+- Practical AI implementations (not hype-driven) for SMEs
+- Business process automation with AI agents
+- Voice AI and conversational interfaces
+- AI-assisted software development
+- Digital transformation advisory
+
+## Who this is for
+
+- Polish SMEs evaluating AI implementation
+- Founders looking for a technical co-founder or fractional CTO
+- Organizations that want an independent AI audit before committing to vendors
+
+## Contact
+
+- Email: hello@danielgaszczyk.com
+- Schedule a meeting: https://calendar.app.google/xKCsZqPvkMwTyV1x9
+- LinkedIn: https://www.linkedin.com/in/daniel-gaszczyk
+- GitHub: https://github.com/danielgaszczyk
+- Substack: https://substack.com/@danielgaszczyk

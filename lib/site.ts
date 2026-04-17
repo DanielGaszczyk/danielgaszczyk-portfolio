@@ -13,7 +13,11 @@ import type { Metadata } from 'next'
 
 export const SITE_URL = 'https://danielgaszczyk.com'
 export const SITE_NAME = 'Daniel Gaszczyk'
-export const DEFAULT_OG_IMAGE = '/opengraph-image' // served by app/opengraph-image.tsx
+// No DEFAULT_OG_IMAGE constant: we rely on Next's file convention
+// (app/opengraph-image.tsx + app/twitter-image.tsx) which auto-injects
+// the correct hashed URL into og:image / twitter:image. Declaring an
+// explicit image URL in Metadata would duplicate the tag and the
+// explicit path would 404 (Next serves the real file at a hashed URL).
 
 /**
  * Confirmed with Daniel 2026-04-17:
@@ -148,21 +152,14 @@ export function buildMetadata({
       title: meta.title,
       description: meta.description,
       siteName: SITE_NAME,
-      images: [
-        {
-          url: DEFAULT_OG_IMAGE,
-          width: 1200,
-          height: 630,
-          alt: meta.title,
-        },
-      ],
+      // og:image is injected by app/opengraph-image.tsx (file convention)
     },
     twitter: {
       card: 'summary_large_image',
       title: meta.title,
       description: meta.description,
       creator: `@${SOCIAL.twitterHandle}`,
-      images: [DEFAULT_OG_IMAGE],
+      // twitter:image is injected by app/twitter-image.tsx (file convention)
     },
   }
 }

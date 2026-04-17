@@ -1,47 +1,51 @@
 import { MetadataRoute } from 'next'
 import { locales } from '@/lib/i18n'
-import { getAllProjects } from '@/lib/projects'
-import { getBlogPosts } from '@/lib/blog'
+import { SITE_URL, PAGE_PATHS, type PageKey } from '@/lib/site'
 
 export const dynamic = 'force-static'
 export const revalidate = false
 
+/**
+ * Sitemap lists ONLY routes that exist as real pages under app/[locale]/.
+ *
+ * The previous version also generated per-project and per-blog-post URLs
+ * from lib/projects.ts / lib/blog.ts — but neither `/[locale]/projects/[id]`
+ * nor `/[locale]/blog/[slug]` exists as a route. That produced 28 404s in
+ * the sitemap and would have caused Google Search Console coverage issues.
+ *
+ * When per-project / per-post routes do exist, add them here explicitly.
+ */
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://danielgaszczyk.com'
-  
-  const routes = ['', '/projects', '/blog', '/about', '/contact']
+  const now = new Date()
+
+  const routeConfig: Array<{
+    key: PageKey
+    priority: number
+    changeFrequency: 'weekly' | 'monthly'
+  }> = [
+    { key: 'home', priority: 1.0, changeFrequency: 'weekly' },
+    { key: 'projects', priority: 0.9, changeFrequency: 'monthly' },
+    { key: 'about', priority: 0.8, changeFrequency: 'monthly' },
+    { key: 'contact', priority: 0.7, changeFrequency: 'monthly' },
+    { key: 'blog', priority: 0.5, changeFrequency: 'monthly' },
+  ]
+
   const entries: MetadataRoute.Sitemap = []
 
-  // Add main routes for each locale
-  locales.forEach(locale => {
-    routes.forEach(route => {
+  locales.forEach((locale) => {
+    routeConfig.forEach(({ key, priority, changeFrequency }) => {
+      const path = PAGE_PATHS[key]
       entries.push({
-        url: `${baseUrl}/${locale}${route}`,
-        lastModified: new Date(),
-        changeFrequency: route === '' ? 'weekly' : 'monthly',
-        priority: route === '' ? 1 : 0.8,
-      })
-    })
-
-    // Add project pages
-    const projects = getAllProjects(locale)
-    projects.forEach(project => {
-      entries.push({
-        url: `${baseUrl}/${locale}/projects/${project.id}`,
-        lastModified: new Date(),
-        changeFrequency: 'monthly',
-        priority: 0.6,
-      })
-    })
-
-    // Add blog posts
-    const posts = getBlogPosts(locale)
-    posts.forEach(post => {
-      entries.push({
-        url: `${baseUrl}/${locale}/blog/${post.slug}`,
-        lastModified: new Date(post.date),
-        changeFrequency: 'yearly',
-        priority: 0.5,
+        url: `${SITE_URL}/${locale}${path}`,
+        lastModified: now,
+        changeFrequency,
+        priority,
+        alternates: {
+          languages: {
+            pl: `${SITE_URL}/pl${path}`,
+            en: `${SITE_URL}/en${path}`,
+          },
+        },
       })
     })
   })

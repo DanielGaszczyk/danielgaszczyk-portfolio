@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import { HeroSection } from '@/components/sections/HeroSection'
 import { ProjectsSection } from '@/components/sections/ProjectsSection'
 import { AboutSection } from '@/components/sections/AboutSection'
@@ -5,6 +6,16 @@ import { SkillsSection } from '@/components/sections/SkillsSection'
 import { ContactSection } from '@/components/sections/ContactSection'
 import { CTABanner } from '@/components/sections/CTABanner'
 import { type Locale } from '@/lib/i18n'
+import { buildMetadata } from '@/lib/site'
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: Locale }>
+}): Promise<Metadata> {
+  const { locale } = await params
+  return buildMetadata({ locale, page: 'home' })
+}
 
 export default async function HomePage({ params }: { params: Promise<{ locale: Locale }> }) {
   const { locale } = await params

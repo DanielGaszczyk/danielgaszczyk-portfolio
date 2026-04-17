@@ -3,12 +3,18 @@ import { notFound } from 'next/navigation'
 import Script from 'next/script'
 import { locales, type Locale } from '@/lib/i18n'
 import { ClientLayout } from '@/components/ui/ClientLayout'
-import { getAllProjects } from '@/lib/projects'
+import { SITE_URL, SITE_NAME, SAME_AS, buildMetadata } from '@/lib/site'
 
 export async function generateStaticParams() {
   return locales.map((locale) => ({ locale }))
 }
 
+/**
+ * Root metadata for the [locale] segment. Each page below can override
+ * title/description/openGraph via its own generateMetadata — Next merges
+ * per-page metadata on top of this. metadataBase lets relative URLs
+ * (like the opengraph-image route) resolve against the canonical host.
+ */
 export async function generateMetadata({
   params,
 }: {
@@ -16,72 +22,44 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale: localeStr } = await params
   const locale = localeStr as Locale
-
-  const metadata = {
-    pl: {
-      title: 'Daniel Gaszczyk - AI × Biznes × Technologia | TeamFeedback CTO',
-      description: 'Buduję produkty na styku AI i biznesu. Twórca TeamFeedback (~1M PLN finansowania), DailySpark. Wdrożenia AI dla MŚP - ROI w 3-6 miesięcy. 5+ lat doświadczenia, 20+ projektów.',
-    },
-    en: {
-      title: 'Daniel Gaszczyk - AI Entrepreneur & Builder | TeamFeedback CTO',
-      description: 'Building products where AI meets business. Creator of TeamFeedback (~1M PLN funding), DailySpark. AI implementations for SMEs - ROI in 3-6 months. 5+ years experience, 20+ projects.',
-    },
-  }
+  const base = buildMetadata({ locale, page: 'home' })
 
   return {
+    metadataBase: new URL(SITE_URL),
+    ...base,
     title: {
-      default: metadata[locale].title,
-      template: `%s | Daniel Gaszczyk`,
+      default: base.title as string,
+      template: `%s | ${SITE_NAME}`,
     },
-    description: metadata[locale].description,
+    applicationName: SITE_NAME,
+    authors: [{ name: SITE_NAME, url: SITE_URL }],
+    creator: SITE_NAME,
+    publisher: SITE_NAME,
     keywords: locale === 'pl' ? [
       'automatyzacja biznesu AI',
       'wdrożenia sztucznej inteligencji',
       'TeamFeedback',
       'DailySpark',
       'Daniel Gaszczyk',
-      'transformacja cyfrowa',
-      'ocena pracownika AI',
-      'feedback 360 stopni',
+      'konsultant AI',
       'rozwiązania AI dla MŚP',
-      'Azure AI certified',
-      'startup technologiczny',
+      'Azure AI',
       'CTO as a Service',
       'audyt AI',
-      'prototyp PoC AI'
+      'prototyp PoC AI',
     ] : [
       'AI consultant Poland',
       'business automation AI',
-      'artificial intelligence implementation',
+      'AI implementation',
       'TeamFeedback',
       'DailySpark',
       'Daniel Gaszczyk',
-      'digital transformation',
-      'AI employee assessment',
-      '360 degree feedback',
       'AI solutions for SMEs',
-      'Azure AI certified',
-      'tech startup',
+      'Azure AI',
       'CTO as a Service',
       'AI audit',
-      'AI PoC prototype'
+      'AI PoC prototype',
     ],
-    authors: [{ name: 'Daniel Gaszczyk' }],
-    creator: 'Daniel Gaszczyk',
-    openGraph: {
-      type: 'website',
-      locale: locale === 'pl' ? 'pl_PL' : 'en_US',
-      url: 'https://danielgaszczyk.com',
-      title: metadata[locale].title,
-      description: metadata[locale].description,
-      siteName: 'Daniel Gaszczyk',
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: metadata[locale].title,
-      description: metadata[locale].description,
-      creator: '@DaGaszczyk',
-    },
     robots: {
       index: true,
       follow: true,
@@ -93,11 +71,10 @@ export async function generateMetadata({
         'max-snippet': -1,
       },
     },
-    icons: {
-      icon: '/favicon.ico',
-      shortcut: '/favicon-16x16.png',
-      apple: '/apple-touch-icon.png',
-    },
+    // Icons are emitted by app/icon.tsx + app/apple-icon.tsx (Next file
+    // conventions). No explicit declarations needed here — and we no
+    // longer reference favicon-16x16.png / apple-touch-icon.png which
+    // did not exist in public/ and returned 404s.
   }
 }
 
@@ -112,64 +89,74 @@ export default async function LocaleLayout({
   if (!locales.includes(localeStr as Locale)) notFound()
   const locale = localeStr as Locale
 
-  const projects = getAllProjects(locale)
-  
-  const structuredData = {
+  // Person JSON-LD — "who is this site about".
+  // All claims verified with Daniel 2026-04-17:
+  //   - 5+ years (since 2021)
+  //   - Azure AI certified (no specific exam name confirmed → generic)
+  //   - sameAs are Daniel's; FB/IG are personal but stay per his request
+  // We do NOT dump 11 projects into makesOffer — project structured
+  // data belongs on /projects (separate commit), not on every page.
+  const person = {
     '@context': 'https://schema.org',
     '@type': 'Person',
-    name: 'Daniel Gaszczyk',
+    '@id': `${SITE_URL}/#person`,
+    name: SITE_NAME,
     alternateName: 'Daniel Gąszczyk',
-    url: 'https://danielgaszczyk.com',
-    jobTitle: locale === 'pl' ? 'AI Entrepreneur | CTO' : 'AI Entrepreneur | CTO',
+    url: `${SITE_URL}/${locale}`,
+    image: `${SITE_URL}/daniel.jpg`,
+    jobTitle: locale === 'pl' ? 'Przedsiębiorca AI, CTO' : 'AI Entrepreneur, CTO',
+    description: locale === 'pl'
+      ? 'Przedsiębiorca technologiczny i konsultant AI. Współtwórca TeamFeedback. 5+ lat doświadczenia w budowaniu produktów na styku AI i biznesu.'
+      : 'Tech entrepreneur and AI consultant. Co-founder of TeamFeedback. 5+ years building products at the intersection of AI and business.',
+    email: 'mailto:hello@danielgaszczyk.com',
     worksFor: [
-      {
-        '@type': 'Organization',
-        name: 'TeamFeedback',
-        url: 'https://teamfeedback.co'
-      },
-      {
-        '@type': 'Organization',
-        name: locale === 'pl' ? 'Konsulting AI' : 'AI Consulting',
-        url: 'https://wytlumacz.com'
-      }
+      { '@type': 'Organization', name: 'TeamFeedback', url: 'https://teamfeedback.co' },
+      { '@type': 'Organization', name: locale === 'pl' ? 'Konsulting AI' : 'AI Consulting', url: 'https://wytlumacz.com' },
     ],
-    sameAs: [
-      'https://www.linkedin.com/in/daniel-gaszczyk',
-      'https://github.com/danielgaszczyk',
-      'https://www.facebook.com/p4Q00F',
-      'https://www.instagram.com/danielgaszczyk'
-    ],
+    sameAs: SAME_AS,
     knowsAbout: [
       'Artificial Intelligence',
       'AI Agents',
-      'Voice AI (ElevenLabs)',
-      'AI-Assisted Coding',
+      'Voice AI',
       'Business Automation',
       'Digital Transformation',
       'Software Development',
       'Python',
-      'Azure AI'
+      'Azure AI',
     ],
     hasCredential: {
       '@type': 'EducationalOccupationalCredential',
-      name: 'Microsoft Azure AI Certified'
+      name: 'Microsoft Azure AI Certified',
+      credentialCategory: 'certification',
+      recognizedBy: { '@type': 'Organization', name: 'Microsoft' },
     },
-    makesOffer: projects.map(project => ({
-      '@type': 'CreativeWork',
-      name: project.title,
-      description: project.longDescription || project.description,
-      url: project.liveUrl || project.githubUrl
-    }))
+  }
+
+  // WebSite JSON-LD — positions the site as a canonical entity and
+  // gives Google the language signal per locale.
+  const website = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': `${SITE_URL}/#website`,
+    url: SITE_URL,
+    name: SITE_NAME,
+    inLanguage: locale === 'pl' ? 'pl-PL' : 'en-US',
+    publisher: { '@id': `${SITE_URL}/#person` },
   }
 
   return (
     <>
       <Script
-        id="structured-data"
+        id="ld-person"
         type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(structuredData)
-        }}
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(person) }}
+      />
+      <Script
+        id="ld-website"
+        type="application/ld+json"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(website) }}
       />
       <ClientLayout locale={locale}>{children}</ClientLayout>
     </>

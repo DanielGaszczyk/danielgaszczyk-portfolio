@@ -21,7 +21,7 @@ const projectsData: Record<Locale, Project[]> = {
       id: 'teamfeedback',
       title: 'TeamFeedback',
       description: 'Wszechstronne narzędzie do oceny pracowników wspierane AI. Certyfikat ISO 27001.',
-      longDescription: 'TeamFeedback to kompleksowe narzędzie do feedbacku 360 stopni, oceny pracownika i ankiet zaangażowania wspierane przez AI. System oferuje automatyczne generowanie raportów, wykrywanie wzorców w feedbacku, cele OKR, macierz umiejętności oraz spersonalizowane rekomendacje rozwojowe. Produkt pozyskał ponad milion złotych finansowania z funduszy UE i posiada certyfikat bezpieczeństwa ISO 27001.',
+      longDescription: 'TeamFeedback to kompleksowe narzędzie do feedbacku 360 stopni, oceny pracownika i ankiet zaangażowania wspierane przez AI. System oferuje automatyczne generowanie raportów, wykrywanie wzorców w feedbacku, cele OKR, macierz umiejętności oraz spersonalizowane rekomendacje rozwojowe. Produkt pozyskał około miliona złotych finansowania z funduszy UE i posiada certyfikat bezpieczeństwa ISO 27001.',
       emoji: '💬',
       featured: true,
       size: 'hero',
@@ -49,14 +49,14 @@ const projectsData: Record<Locale, Project[]> = {
       id: 'ai-consulting',
       title: 'Wdrożenia AI w biznesie',
       description: 'Automatyzacja biznesu z AI - ROI w 3-6 miesięcy.',
-      longDescription: 'Pomagam polskim MŚP wdrażać praktyczne rozwiązania AI bez ryzyka i wielkich inwestycji. Oferuję audyt procesów, prototypy (PoC), pełne wdrożenia i wsparcie. ROI w ciągu 3-6 miesięcy, bez vendor lock-in. Doświadczenie: 5+ lat w AI, 30+ projektów, projekty >1M PLN. Certyfikat Microsoft Azure AI.',
+      longDescription: 'Pomagam polskim MŚP wdrażać praktyczne rozwiązania AI bez ryzyka i wielkich inwestycji. Oferuję audyt procesów, prototypy (PoC), pełne wdrożenia i wsparcie. ROI w ciągu 3-6 miesięcy, bez vendor lock-in. Doświadczenie: 5+ lat w AI, 20+ projektów. Certyfikat Microsoft Azure AI.',
       emoji: '🤖',
       featured: true,
       size: 'featured',
       liveUrl: 'https://wytlumacz.com',
       metrics: [
         { label: 'ROI', value: '3-6 mies.' },
-        { label: 'Projektów', value: '30+' }
+        { label: 'Projektów', value: '20+' }
       ]
     },
     {
@@ -143,7 +143,7 @@ const projectsData: Record<Locale, Project[]> = {
       id: 'teamfeedback',
       title: 'TeamFeedback',
       description: 'AI-powered employee assessment tool. ISO 27001 certified.',
-      longDescription: 'TeamFeedback is a comprehensive 360-degree feedback, employee assessment and engagement survey tool powered by AI. The system offers automatic report generation, feedback pattern detection, OKR goals, skills matrix and personalized development recommendations. Product secured over 1 million PLN in EU funding and holds ISO 27001 security certification.',
+      longDescription: 'TeamFeedback is a comprehensive 360-degree feedback, employee assessment and engagement survey tool powered by AI. The system offers automatic report generation, feedback pattern detection, OKR goals, skills matrix and personalized development recommendations. Product secured around 1 million PLN in EU funding and holds ISO 27001 security certification.',
       emoji: '💬',
       featured: true,
       size: 'hero',
@@ -171,14 +171,14 @@ const projectsData: Record<Locale, Project[]> = {
       id: 'ai-consulting',
       title: 'AI Business Implementations',
       description: 'Business automation with AI - ROI in 3-6 months.',
-      longDescription: 'I help Polish SMEs implement practical AI solutions without risk and large investments. I offer process audit, prototypes (PoC), full implementations and support. ROI within 3-6 months, no vendor lock-in. Experience: 5+ years in AI, 30+ projects, projects >1M PLN. Microsoft Azure AI certified.',
+      longDescription: 'I help Polish SMEs implement practical AI solutions without risk and large investments. I offer process audit, prototypes (PoC), full implementations and support. ROI within 3-6 months, no vendor lock-in. Experience: 5+ years in AI, 20+ projects. Microsoft Azure AI certified.',
       emoji: '🤖',
       featured: true,
       size: 'featured',
       liveUrl: 'https://wytlumacz.com',
       metrics: [
         { label: 'ROI', value: '3-6 months' },
-        { label: 'Projects', value: '30+' }
+        { label: 'Projects', value: '20+' }
       ]
     },
     {

@@ -44,7 +44,7 @@ export function ProjectShowcase() {
           <div className="space-y-3">
             <div className="flex items-center gap-2">
               <TrendingUp className="w-4 h-4 text-green-400" />
-              <span className="text-sm text-white/80">1M+ PLN funding</span>
+              <span className="text-sm text-white/80">~1M PLN funding</span>
             </div>
             <div className="flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-violet-400" />
@@ -121,7 +121,7 @@ export function ProjectShowcase() {
             </div>
             <div>
               <div className="flex items-baseline gap-2">
-                <span className="text-3xl font-heading font-bold gradient-text">8+</span>
+                <span className="text-3xl font-heading font-bold gradient-text">5+</span>
                 <span className="text-sm text-white/60">years</span>
               </div>
             </div>

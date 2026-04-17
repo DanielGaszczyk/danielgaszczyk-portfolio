@@ -163,14 +163,14 @@ export function HeroSection({ locale }: { locale: Locale }) {
         >
           <div className="inline-flex items-center gap-3 sm:gap-5 px-6 py-3 rounded-full glass text-sm">
             <span className="text-white/90 font-medium">
-              {locale === 'pl' ? '8+ lat' : '8+ yrs'}
+              {locale === 'pl' ? '5+ lat' : '5+ yrs'}
             </span>
             <span className="text-white/30">·</span>
             <span className="text-white/90 font-medium">
               {locale === 'pl' ? '20+ projektów' : '20+ projects'}
             </span>
             <span className="text-white/30">·</span>
-            <span className="text-white/90 font-medium">1M+ PLN</span>
+            <span className="text-white/90 font-medium">~1M PLN</span>
           </div>
         </motion.div>
 

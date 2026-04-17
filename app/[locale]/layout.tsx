@@ -20,11 +20,11 @@ export async function generateMetadata({
   const metadata = {
     pl: {
       title: 'Daniel Gaszczyk - AI × Biznes × Technologia | TeamFeedback CTO',
-      description: 'Buduję produkty na styku AI i biznesu. Twórca TeamFeedback (1M+ PLN finansowania), DailySpark. Wdrożenia AI dla MŚP - ROI w 3-6 miesięcy. 8+ lat doświadczenia, 20+ projektów.',
+      description: 'Buduję produkty na styku AI i biznesu. Twórca TeamFeedback (~1M PLN finansowania), DailySpark. Wdrożenia AI dla MŚP - ROI w 3-6 miesięcy. 5+ lat doświadczenia, 20+ projektów.',
     },
     en: {
       title: 'Daniel Gaszczyk - AI Entrepreneur & Builder | TeamFeedback CTO',
-      description: 'Building products where AI meets business. Creator of TeamFeedback (1M+ PLN funding), DailySpark. AI implementations for SMEs - ROI in 3-6 months. 8+ years experience, 20+ projects.',
+      description: 'Building products where AI meets business. Creator of TeamFeedback (~1M PLN funding), DailySpark. AI implementations for SMEs - ROI in 3-6 months. 5+ years experience, 20+ projects.',
     },
   }
 

@@ -14,11 +14,11 @@ export function AboutSection({ locale }: { locale: Locale }) {
       title: 'O mnie',
       subtitle: 'Przedsiębiorca technologiczny i konsultant AI',
       bio: [
-        'Jestem przedsiębiorcą i konsultantem AI z ponad 8-letnim doświadczeniem. Współtworzyłem kilka startupów, w tym TeamFeedback, który pozyskał ponad milion złotych finansowania z funduszy UE. Specjalizuję się w budowaniu produktów na styku sztucznej inteligencji i biznesu.',
+        'Jestem przedsiębiorcą i konsultantem AI z ponad 5-letnim doświadczeniem. Współtworzyłem kilka startupów, w tym TeamFeedback, który pozyskał około miliona złotych finansowania z funduszy UE. Specjalizuję się w budowaniu produktów na styku sztucznej inteligencji i biznesu.',
         'Zaczynałem od hackathonów, dziś pomagam firmom wdrażać praktyczne rozwiązania AI. Każdy projekt traktuję jako szansę na rozwiązanie realnego problemu - nie budowanie technologii dla samej technologii.',
       ],
       stats: [
-        { icon: Briefcase, label: 'Lat doświadczenia', value: '8+' },
+        { icon: Briefcase, label: 'Lat doświadczenia', value: '5+' },
         { icon: Award, label: 'Ukończonych projektów', value: '20+' },
       ],
     },
@@ -26,11 +26,11 @@ export function AboutSection({ locale }: { locale: Locale }) {
       title: 'About Me',
       subtitle: 'Tech entrepreneur and AI consultant',
       bio: [
-        "I'm an entrepreneur and AI consultant with over 8 years of experience. I co-founded several startups, including TeamFeedback, which secured over 1 million PLN in EU funding. I specialize in building products at the intersection of artificial intelligence and business.",
+        "I'm an entrepreneur and AI consultant with over 5 years of experience. I co-founded several startups, including TeamFeedback, which secured around 1 million PLN in EU funding. I specialize in building products at the intersection of artificial intelligence and business.",
         'I started at hackathons, today I help companies implement practical AI solutions. I treat every project as a chance to solve a real problem - not building technology for technology\'s sake.',
       ],
       stats: [
-        { icon: Briefcase, label: 'Years of experience', value: '8+' },
+        { icon: Briefcase, label: 'Years of experience', value: '5+' },
         { icon: Award, label: 'Completed projects', value: '20+' },
       ],
     },

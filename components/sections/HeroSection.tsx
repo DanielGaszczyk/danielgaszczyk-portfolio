@@ -1,6 +1,5 @@
 'use client'
 
-import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { ArrowDown, Calendar, Code2, Sparkles } from 'lucide-react'
@@ -13,14 +12,9 @@ const easeOutExpo = [0.16, 1, 0.3, 1] as const
 
 export function HeroSection({ locale }: { locale: Locale }) {
   const t = getTranslations(locale)
-  const [mounted, setMounted] = useState(false)
   const { scrollY } = useScroll()
   const y2 = useTransform(scrollY, [0, 500], [0, -150])
   const opacity = useTransform(scrollY, [0, 300], [1, 0])
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
 
   const renderShimmeredText = (text: string, shimmerWords: string[]) => {
     return text.split(' ').map((word, i) => {
@@ -32,8 +26,6 @@ export function HeroSection({ locale }: { locale: Locale }) {
       )
     })
   }
-
-  if (!mounted) return null
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden perspective-2000">

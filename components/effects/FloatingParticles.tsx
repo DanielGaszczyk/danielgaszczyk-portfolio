@@ -1,12 +1,18 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useIsMobile, usePrefersReducedMotion } from '@/lib/hooks'
 
 export function FloatingParticles() {
   const isMobile = useIsMobile()
   const prefersReducedMotion = usePrefersReducedMotion()
+  // Particles use Math.random() for positions, which would cause a
+  // hydration mismatch if rendered during SSR. Gate only this component
+  // behind a mount flag — the rest of the page (Hero included) must
+  // render server-side so the user sees content on first paint.
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => { setMounted(true) }, [])
 
   const particleCount = isMobile ? 3 : 6
 
@@ -22,6 +28,7 @@ export function FloatingParticles() {
     }))
   }, [particleCount])
 
+  if (!mounted) return null
   if (prefersReducedMotion) return null
 
   return (
